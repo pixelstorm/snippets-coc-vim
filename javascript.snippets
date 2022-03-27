@@ -1,0 +1,275 @@
+snippet noconflict_jquery "no conflict jQuery for wordpress"
+	$ = jQuery.noConflict();
+endsnippet
+
+snippet comment "star comments" b
+/*
+* ${1}
+*/
+
+endsnippet
+
+snippet array_of_objects "Description" b
+person:[
+ {
+  name: "trevor",
+  age: 20,
+  hobby: "rowing",
+}
+]
+endsnippet
+
+snippet object "example const object" b
+const person = {
+  name: "trevor",
+  age: 20,
+  hobby: "rowing",
+};
+endsnippet
+
+snippet arrowfunction "add params to ()" b
+const ${1} = () => {
+}
+endsnippet
+
+
+snippet createVariable "create a new variable" b
+let ${1} = ${2}
+endsnippet
+
+snippet createConst "create a new constant" b
+const ${1} = ${2}
+endsnippet
+
+snippet destructure "take a variable out of an object" b
+const {name, lastname} = props; 
+endsnippet
+
+snippet toggle "toggle" b
+$( ".target" ).toggle();
+endsnippet
+
+snippet document.ready_jquery "no conflict document ready for wordpress" b
+	jQuery(document).ready(function($) {
+	});
+endsnippet
+
+snippet document_ready "document ready for vanilla js" b
+document.addEventListener("DOMContentLoaded", function(event) {
+    // Your code to run since DOM is loaded and ready
+});
+endsnippet
+
+snippet clickFunction_jquery "click function" 
+	$( "${1}" ).click(function(event) {
+
+	});
+endsnippet
+
+snippet if_elseif_else_jquery "if elseif else statement" 
+	if($a > $b) {
+		echo "<p>A is larger than B</p>";
+	}
+	elseif($a == $b) {
+		echo "<p>A is equal to B</p>";
+	}
+	else {
+		echo "<p>B is larger than A</p>";
+	}
+endsnippet
+
+snippet importComponent "import react component" b
+import { ${1} } from "./components/${2}";
+endsnippet
+
+snippet filter "filter array and output values with arrow function" b
+const newConst = arrayToFilter.filter( outputVal => outputVal >= 18);
+console.log(newConst);
+endsnippet
+
+
+snippet importUseState "React use state" b
+import { useState } from "react";
+endsnippet
+
+snippet useStateFunction "set values of a useStateFunction" b
+	const [${1}, set${1}] = useState('default Value')
+endsnippet
+
+snippet include_jquery_from_cdn "include jquery from cdn" 
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+endsnippet
+
+snippet onclick "on click js function" b
+	document.querySelector('html').onclick = function() {
+			alert('Ouch! Stop poking me!');
+	}
+endsnippet
+
+snippet slick-slider-init "slideshow init funciton - slides go directly in the wrapper - custom navigation btns" b
+$(document).ready(function() {
+  $('#${1}__wrapper').slick({
+    slidesToShow: 1,
+    arrows: false,
+    dots: true,
+    customPaging: function(slider, i) {
+      var thumb = $(slider.$slides[i]).data('thumb');
+      return '<a><span></span></a>';
+    }
+  });
+  // Custom carousel nav
+  $('.${1}__controls--prev').click(function() {
+    $(this)
+      .parents()
+      .find('#${1}__wrapper')
+      .slick('slickPrev');
+  });
+
+  $('.${1}__controls--next').click(function() {
+    $(this)
+      .parents()
+      .find('#${1}__wrapper')
+      .slick('slickNext');
+  });
+});
+endsnippet
+
+snippet const_arrow_return "variable arrow function return html" b
+const ${1} = () => {
+  return (<div></div>);
+};
+export default ${1};
+endsnippet
+
+snippet filter-posts "filter posts on form click ajax " b
+jQuery(function ($) {
+  $('#filterPosts').submit(function () {
+    var filter = $('#filterPosts');
+    $.ajax({
+      url: filter.attr('action'),
+      data: filter.serialize(), // form data
+      type: filter.attr('method'), // POST
+      action: 'projectfilter',
+
+      success: function (data) {
+        $('#loader').html(data); // insert data
+      },
+    });
+    return false;
+  });
+  //process the form on radio button selection
+  $('#filterPosts input[type=radio]').on('change', function () {
+    $(this).closest('form').submit();
+  });
+
+  $('#filterPosts').on('change', function () {
+    $(this).closest('form').submit();
+  });
+
+  //style the checked btns
+  $('.posts-with-filter__button').click(function (event) {
+    $('.posts-with-filter__button').removeClass('checked');
+    $(this).addClass('checked');
+  });
+});
+endsnippet
+
+snippet rafce "react arrow functions component export" b
+import React from  'react'
+export const ${1} = () => {
+	return (
+		<div>${1}</div>
+	) 
+}
+export default ${1}
+endsnippet
+
+snippet importReact "import React from react ir" b
+import React from 'react'
+endsnippet
+
+snippet exportReactComponebt "export react component er" b
+export default ${1}
+endsnippet
+
+snippet importStyles "import Styles sheets into component folder is" b
+import './${1}'
+endsnippet
+
+snippet link "link component lc" b
+<Link href="/"></Link>
+endsnippet
+
+snippet spread "Description" b
+...${1}
+endsnippet
+
+snippet map "map through and output items in the array" b
+    {${1}s.map(${1} => (
+      <div key={${1}.id}>{${1}.name}</div>
+    ))}
+endsnippet
+
+
+snippet route "react route using react router" b
+<Route exact path="/" component={Homepage} />;
+endsnippet
+
+snippet classComponent "react class componebt" b
+class ${1} extends React.Component {
+  constructor() {
+    super();
+  }
+  render() {
+    return (
+      <div></div>
+    )
+  }
+}
+export default ${1};
+endsnippet
+
+snippet stringInterpolation "jsx use variables or props in strings" b
+	{`${ props }`}
+endsnippet
+
+snippet arrowfunction "add params to ()" b
+const ${1} = () => {
+}
+endsnippet
+
+snippet filter "filter array and output values with arrow function" b
+const newConst = arrayToFilter.filter( outputVal => outputVal >= 18);
+console.log(newConst);
+endsnippet
+
+snippet importComponent "import react component" b
+import { ${1} } from "./components/${2}";
+endsnippet
+
+snippet importUseState "React use state" b
+import { useState } from "react";
+endsnippet
+
+snippet useStateFunction "set values of a useStateFunction" b
+	const [${1}, set${1}] = useState('default Value')
+endsnippet
+
+snippet ternary "react" b
+{condition ? "if its true" : "if its false"}
+endsnippet
+
+snippet component "react component" b
+<${1}/>
+endsnippet
+
+snippet destructure "take a variable out of an object" b
+const {name, lastname} = props; 
+endsnippet
+
+snippet setStateWithCallBackFunction "this.setState" b
+            this.setState({ update something }, () =>
+              console.log( after updating something)
+            )
+endsnippet
+

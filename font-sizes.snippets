@@ -1,0 +1,63 @@
+extends scss
+
+snippet fontsize-tiny "fs" b
+	font-size: map-get($fontSize, tiny);
+endsnippet
+snippet fontsize-smaller "fs" b
+	font-size: map-get($fontSize, smaller);
+endsnippet
+snippet fontsize-small "fs" b
+	font-size: map-get($fontSize, small);
+endsnippet
+snippet fontsize-medium "fs" b
+	font-size: map-get($fontSize, medium);
+endsnippet
+snippet fontsize-large "fs" b
+	font-size: map-get($fontSize, large);
+endsnippet
+snippet fontsize-larger "fs" b
+	font-size: map-get($fontSize, larger);
+endsnippet
+snippet fontsize-larger-1 "fs" b
+	font-size: map-get($fontSize, larger-1);
+endsnippet
+snippet fontsize-larger-2 "fs" b
+	font-size: map-get($fontSize, larger-2);
+endsnippet
+snippet fontsize-larger-3 "fs" b
+	font-size: map-get($fontSize, larger-3);
+endsnippet
+snippet fontsize-largest "fs" b
+	font-size: map-get($fontSize, largest);
+endsnippet
+
+snippet fontsize-title-map "Description" b
+      $fontsize: map-get($titleSize, medium),
+endsnippet
+
+snippet fontsize-text-m "for use in mixin" b
+$fontsize: map-get($paragraphSize, medium), 
+endsnippet
+
+snippet fontsize-text "for normal use" b
+font-size: map-get($paragraphSize, medium); 
+endsnippet
+
+snippet fontsize-small "fss" b
+font-size: map-get($fontSize, small); 
+endsnippet
+
+snippet FontSize-map "sass map for font sizes" b
+	$fontSize: (
+		"tiny": 11px,
+		"smaller": 12px,
+		"small": 13px,
+		"medium": 14px,
+		"large": 16px,
+		"larger": 20px,
+		"larger-1": 22px,
+		"larger-2": 26px,
+		"larger-3": 30px,
+		"largest": 39px,
+	);
+endsnippet

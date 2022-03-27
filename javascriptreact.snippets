@@ -1,0 +1,126 @@
+# A valid snippet should starts with:
+#
+#		snippet trigger_word [ "description" [ options ] ]
+#
+# and end with:
+#
+#		endsnippet
+#
+# Snippet options:
+#
+#		b - Beginning of line.
+#		i - In-word expansion.
+#		w - Word boundary.
+#		r - Regular expression
+#		e - Custom context snippet
+#		A - Snippet will be triggered automatically, when condition matches.
+#
+# Basic example:
+#
+#		snippet emitter "emitter properties" b
+#		private readonly ${1} = new Emitter<$2>()
+#		public readonly ${1/^_(.*)/$1/}: Event<$2> = this.$1.event
+#		endsnippet
+#
+# Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
+
+snippet rafce "react arrow functions component export" b
+import React from  'react'
+export const ${1} = () => {
+	return (
+		<div>${1}</div>
+	) 
+}
+export default ${1}
+endsnippet
+
+snippet importReact "import React from react ir" b
+import React from 'react'
+endsnippet
+
+snippet exportReactComponebt "export react component er" b
+export default ${1}
+endsnippet
+
+snippet importStyles "import Styles sheets into component folder is" b
+import './${1}'
+endsnippet
+
+snippet link "link component lc" b
+<Link><Link/>
+endsnippet
+
+snippet spread "Description" b
+...${1}
+endsnippet
+
+snippet map "map through and output items in the array" b
+
+    {${1}s.map(${1} => (
+      <div key={${1}.id}>{${1}.name}</div>
+    ))}
+endsnippet
+
+
+snippet route "react route using react router" b
+<Route exact path="/" component={Homepage} />;
+endsnippet
+
+snippet classComponent "react class componebt" b
+class ${1} extends React.Component {
+  constructor() {
+    super();
+  }
+  render() {
+    return (
+      <div></div>
+    )
+  }
+}
+export default ${1};
+endsnippet
+
+snippet stringInterpolation "jsx use variables or props in strings" b
+	{`${ props }`}
+endsnippet
+
+snippet arrowfunction "add params to ()" b
+const ${1} = () => {
+}
+endsnippet
+
+snippet filter "filter array and output values with arrow function" b
+const newConst = arrayToFilter.filter( outputVal => outputVal >= 18);
+console.log(newConst);
+endsnippet
+
+snippet importComponent "import react component" b
+import { ${1} } from "./components/${2}";
+endsnippet
+
+snippet importUseState "React use state" b
+import { useState } from "react";
+endsnippet
+
+snippet useStateFunction "set values of a useStateFunction" b
+	const [${1}, set${1}] = useState('default Value')
+endsnippet
+
+snippet ternary "react" b
+{condition ? "if its true" : "if its false"}
+endsnippet
+
+snippet component "react component" b
+<${1}/>
+endsnippet
+
+snippet destructure "take a variable out of an object" b
+const {name, lastname} = props; 
+endsnippet
+
+snippet setStateWithCallBackFunction "this.setState" b
+            this.setState({ update something }, () =>
+              console.log( after updating something)
+            )
+endsnippet
+

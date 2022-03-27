@@ -1,0 +1,1420 @@
+snippet remove_action "remove a function from a hook" b
+remove_action ( string $hook_name 'The action hook to which the function to be removed is hooked.', callable $callback 'The name of the function which should be removed.' , int $priority = 10 );
+endsnippet
+
+snippet use_global "use global or local page block data" b
+<?php if ( get_sub_field( 'use_global' ) == 1 ) :
+echo 'global';
+	$post_id       = 'option';
+else :
+echo 'not global';
+	$post_id       = $post->ID;
+endif;
+?>
+endsnippet
+
+snippet env_variables "Description" b
+define('LOCAL_URL', '');
+define('STAGING_URL', '');
+define('LIVE_URL', '');
+endsnippet
+
+snippet add_action "add a function to a hook" b
+add_action('action hook to which to add the funciton','the function to run', priority);
+endsnippet
+snippet get_theme_directory_child "get the theme directory for child theme" b
+echo get_stylesheet_directory_uri();
+endsnippet
+snippet get_theme_directory "get the theme directory for the current theme" b
+echo get_template_directory_uri();
+endsnippet
+
+snippet string_replace "strip dash from the variable string output" b
+     $form_val_str_rep = str_replace("-", " ", $form_val[0]);
+endsnippet
+
+snippet flexible_block_display_acf "function to output page builder blocks or only return list of blocks" b
+    /**
+     * function to output page builder blocks or only return list of blocks
+		 * parameter required $post->ID
+     */
+    function block_display($postID){
+      $blocks = array(
+        'content_with_image',
+        'banner',
+      );
+      if( have_rows('blocks', $postID) ):
+        while ( have_rows('blocks', $postID) ) : the_row();
+          $layout = get_row_layout();
+          if( in_array( get_row_layout(), $blocks ) ){
+            get_template_part( 'template-parts/blocks/block', $layout );
+          }
+        endwhile;
+      endif;
+    }
+endsnippet
+
+snippet is_post_type "conditional statement based on post type check" b
+        <?php 
+        if ('${1}' == get_post_type()) {
+           echo '${2}'; 
+        } else {
+           echo '${3}'; 
+        }
+        ?>
+endsnippet
+
+snippet get_sku_number "woocommerce get sku product number" b
+function poly_show_product_sku() {
+  if ('product' == get_post_type()) {
+     global $product;
+     echo '<div class="product-sku">';
+        echo $product->get_sku();
+     echo '</div>';
+   }
+}
+endsnippet
+
+snippet slick-slider "Description" b
+<div class="slick-container">
+	<div class="slick-slider">[slides go here]</div>
+	<button class="carousel-nav carousel-prev"><?php echo ea_icon( 'previous' );?></button>
+	<button class="carousel-nav carousel-next"><?php echo ea_icon( 'next' ); ?></button>
+</div>
+endsnippet
+
+
+snippet ternary-acf-class-output "condtional check for acf option to output class" b
+	<?php $${1} = get_sub_field( '${1}' ) == 1 ?  '--${1}' : ''; ?> 
+endsnippet
+
+snippet 404_template "404 template - styles at 404" b
+<?php get_header(); ?>
+	<main id="primary" class="site-main">
+		<section class="error-404 not-found container">
+			<header class="error-404__header">
+				<h1 class="error-404__title"><?php esc_html_e( 'Oops!'); ?></h1>
+			</header><!-- .page-header -->
+			<div class="error-404__content">
+				<span class="error-404__text">404 Error - Page Not Found</span>
+				<!-- <img class="error-404__image" src="<?php //echo get_template_directory_uri().'/images/404.svg';?>" alt=""> -->
+				<p class="error-404__message"><?php esc_html_e( "We can't find the page that you're looking for :( " ); ?></p>
+				<a href="<?php echo esc_attr(get_bloginfo('url')); ?>" class="error-404__button">BACK TO HOME</a>
+			</div><!-- .page-content -->
+		</section><!-- .error-404 -->
+
+	</main><!-- #main -->
+
+<?php
+get_footer();
+endsnippet
+
+snippet section_bem_scaffold "section BEM scaffold" 
+	<section class = "${1}">
+		<div class = "container">
+			 <div class = "row">
+					 <div class = "${1}__wrapper">
+						 <h3 class = "${1}__title">
+
+						 </h3>
+						 <p class = "${1}__text">
+
+
+						 </p>
+					 </div>
+					 <div class = "${1}__image">
+
+
+					 </div>
+					 <div class = "${1}__btn">
+
+					 </div>
+					</div>
+			 </div>
+		</div>
+	</section>
+endsnippet
+
+snippet section-contact-form-block "contact form block section acf bem scaffold using acf gravity_form addon plugin" b
+  <section class = "contact-form">
+    <div class = "container">
+        <div class = "contact-form__title">
+          <?php the_sub_field( 'title' ); ?>
+        </div>
+        <div class="contact-form__form">
+              <?php $contact_form = get_sub_field( 'contact_form' ); ?>
+              <?php if ( $contact_form ) : ?>
+                <?php gravity_form( $contact_form['id'] ); ?>
+              <?php endif; ?>
+        </div>
+    </div>
+  </section>
+endsnippet
+
+snippet section-team-acf "team acf loop" b
+  <section class = "team">
+    <div class = "container">
+			<?php if ( have_rows( 'team' ) ) : ?>
+				<?php while ( have_rows( 'team' ) ) : the_row(); ?>
+        <div class = "team__member-wrapper">
+          <div class="team__image-wrapper">
+
+					//custom image size
+          <?php $image = get_sub_field( 'image' ); ?>
+          <?php 
+              $size = 'team-member';
+              $thumb = $image['sizes'][ $size ];
+              $width = $image['sizes'][ $size . '-width' ];
+              $height = $image['sizes'][ $size . '-height' ];
+          ?>
+          <?php if ( $image ) : ?>
+            <div class = "team__image">
+                <img src="<?php echo esc_url( $thumb ); ?>" alt="<?php echo esc_attr( $image['alt'] ); ?>" />
+            </div>
+          <?php endif; ?>
+
+          </div>
+          <h3 class = "team__name">
+            <?php the_sub_field( 'name' ); ?>
+          </h3>
+          <p class = "team__job-title">
+					<?php the_sub_field( 'job_title' ); ?>
+          </p>
+        </div>
+				<?php endwhile; ?>
+			<?php else : ?>
+				<?php // no rows found ?>
+			<?php endif; ?>
+    </div>
+  </section>
+endsnippet
+
+snippet section-title "a simple seciont with title" b
+<section class = "section-title">
+  <div class = "container">
+    <h2 class = "section-title__title">${1}</h2>
+  </div>
+</section>
+endsnippet
+
+snippet section-text "simple text" b
+<section class = "section-text">
+  <div class = "container">
+    <div class="section-text__wrapper">
+          <p class = "section-text__text"></p>
+    </div>
+  </div>
+</section>
+endsnippet
+
+snippet section-three-col-text "three-col-text" b
+  <section class = "three-col-text">
+    <div class = "container">
+        <div class = "three-col-text__wrapper">
+          <h3 class = "three-col-text__title"></h3>
+          <p class = "three-col-text__text"></p>
+        </div>
+        <div class = "three-col-text__wrapper">
+          <h3 class = "three-col-text__title"></h3>
+          <p class = "three-col-text__text"></p>
+        </div>
+        <div class = "three-col-text__wrapper">
+          <h3 class = "three-col-text__title"></h3>
+          <p class = "three-col-text__text"></p>
+        </div>
+    </div>
+  </section>
+endsnippet
+
+snippet section-image "section for a single image" b
+  <section class = "section-image">
+    <div class = "container">
+        <div class = "section-image__wrapper">
+          <img class = "section-image__image" src="<?php echo get_template_directory_uri(); ?>/images/values.png" alt="values diagram">
+        </div>
+    </div>
+  </section>
+endsnippet
+
+snippet spacer "spacer block" b
+<div class="spacer"><span></span></div>
+endsnippet
+
+snippet section-testimonial "testimonial block section acf bem scaffold" b
+  <section class = "testimonial">
+    <div class = "container">
+			<div class = "testimonial__item-wrapper">
+            <svg class="testimonial__speech-icon" width="50px" height="39px" viewBox="0 0 50 39" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g id="Artboard" transform="translate(-41.000000, -31.000000)" fill="#000000">
+                        <path d="M69.028,69.967 L69.028,66.75 C73.913,65.141 77.711,62.624 80.423,59.198 C83.133,55.771 84.489,52.122 84.489,48.249 C84.489,47.356 84.28,46.581 83.864,45.926 C83.565,45.509 83.238,45.3 82.881,45.3 C82.344,45.3 81.183,45.777 79.395,46.73 C78.56,47.207 77.666,47.445 76.714,47.445 C74.33,47.445 72.453,46.744 71.083,45.345 C69.712,43.946 69.028,42.024 69.028,39.58 C69.028,37.198 69.922,35.171 71.709,33.503 C73.496,31.835 75.671,31 78.233,31 C81.451,31 84.28,32.386 86.724,35.156 C89.166,37.927 90.388,41.577 90.388,46.104 C90.388,51.05 88.675,55.637 85.249,59.868 C81.822,64.098 76.415,67.465 69.028,69.967 Z M41,69.967 L41,66.75 C45.885,65.141 49.683,62.624 52.395,59.198 C55.106,55.771 56.462,52.122 56.462,48.249 C56.462,47.356 56.252,46.581 55.836,45.926 C55.537,45.509 55.211,45.3 54.853,45.3 C54.317,45.3 53.155,45.777 51.368,46.73 C50.532,47.207 49.639,47.445 48.686,47.445 C46.303,47.445 44.426,46.744 43.056,45.345 C41.685,43.946 41,42.024 41,39.58 C41,37.198 41.894,35.171 43.681,33.503 C45.469,31.835 47.643,31 50.206,31 C53.423,31 56.252,32.386 58.696,35.156 C61.139,37.927 62.361,41.577 62.361,46.104 C62.361,51.05 60.647,55.637 57.222,59.868 C53.795,64.098 48.388,67.465 41,69.967 L41,69.967 Z" id="Fill-18" transform="translate(65.694000, 50.483500) rotate(-180.000000) translate(-65.694000, -50.483500) "></path>
+                    </g>
+                </g>
+            </svg>
+            <div class="testimonial__content-wrapper">
+                    <div class = "testimonial__text"><?php the_sub_field( 'text' ); ?></div>
+                    <div class="testimonial__meta-wrapper">
+                      <div class = "testimonial__author"><?php the_sub_field( 'author' ); ?></div>
+                      <div class = "testimonial__company"><?php the_sub_field( 'company' ); ?></div>
+                    </div>
+            </div>
+				</div>
+    </div>
+  </section>
+endsnippet
+
+snippet featured_image "output the featured_image in a loop" b
+echo get_the_post_thumbnail( $post_id, 'thumbnail', array( 'class' => 'alignleft' ) );
+endsnippet
+
+snippet img "get image from theme directory" b
+      <img src="<?php echo get_template_directory_uri(); ?>/images/${1}.${2}" alt="${3}">
+endsnippet
+
+snippet featured_img_url "url of image for use in background-image" b
+        <?php $featured_img_url = get_the_post_thumbnail_url(get_the_ID(),'medium'); ?>
+endsnippet
+
+snippet section-content-with-image-acf-block "section text with image acf block" b
+<?php if ( get_sub_field( 'direction' ) == 1 ) : ?>
+							<?php $direction = 'container--direction-reversed'; ?>
+						<?php else : ?>
+							<?php $direction = 'container--default-direction'; ?>
+<?php endif; ?>
+<section class = "content_with_image">
+    <div class = "container <?php echo $direction; ?>">
+      <?php $image = get_sub_field( 'image' ); ?>
+			<?php if ( $image ) : ?>
+      <div class="content_with_image__image-wrapper">
+				<img class="content_with_image__image" src="<?php echo esc_url( $image['url'] ); ?>" alt="<?php echo esc_attr( $image['alt'] ); ?>" />
+      </div>
+			<?php endif; ?>
+      <?php if ( have_rows( 'content' ) ): ?>
+        <div class="content_with_image__content">
+				<?php while ( have_rows( 'content' ) ) : the_row(); ?>
+					<?php if ( get_row_layout() == 'title' ) : ?>
+            <div class = "content_with_image__title">
+              <?php the_sub_field( 'title' ); ?>
+            </div> <!--title-->
+					<?php elseif ( get_row_layout() == 'list' ) : ?>
+						<?php if ( have_rows( 'list' ) ) : ?>
+              <ul class = "content_with_image__list-wrapper">
+							<?php while ( have_rows( 'list' ) ) : the_row(); ?>
+                <li class="content_with_image__list-item-wrapper">
+                  <div class="list-item-content__wrapper">
+                  <div class = "list-item-title">
+                    <?php the_sub_field( 'list_item_title' ); ?>
+                  </div>
+            <?php if ( get_sub_field( 'larger_text' ) == 1 ) : ?>
+							<?php $textsize = 'list-item-text--large' ?>
+						<?php else : ?>
+							<?php $textsize = ''; ?>
+						<?php endif; ?>
+                  <div class = "list-item-text <?php echo $textsize; ?>">
+                    <?php the_sub_field( 'list_item_text' ); ?>
+                  </div>
+                  </div>
+                </li>
+							<?php endwhile; ?>
+              </ul>
+						<?php else : ?>
+							<?php // no rows found ?>
+						<?php endif; ?>
+					<?php elseif ( get_row_layout() == 'text' ) : ?>
+            <p class = "content_with_image__text">
+						<?php the_sub_field( 'text' ); ?>
+            </p>
+					<?php elseif ( get_row_layout() == 'btn' ) : ?>
+						<?php $btn = get_sub_field( 'btn' ); ?>
+						<?php if ( $btn ) : ?>
+							<a class="content_with_image__btn" href="<?php echo esc_url( $btn); ?>"><?php the_sub_field( 'btn_label' ); ?></a>
+						<?php endif; ?>
+					<?php endif; ?>
+				<?php endwhile; ?>
+			<?php else: ?>
+				<?php // no layouts found ?>
+        </div> <!--content-->
+			<?php endif; ?>
+    </div>
+</section>
+endsnippet
+
+snippet function "function" b
+function ${1}() {
+	${2}
+}
+endsnippet
+
+snippet echo_variable "echo variable" b
+<?php echo $${1}; ?>
+endsnippet
+
+snippet echo_variable "echo variable no tags" b
+echo $${1}; 
+endsnippet
+
+snippet echo_hello_with_tags "echo test hello statement" b
+<?php echo 'hello'; ?>
+endsnippet
+
+snippet echo_html_tag_with_tags "echo test hello statement" b
+<?php echo '<${1}>'${2}'</${1}>'; ?>
+endsnippet
+
+snippet echo_hello_without_tags "echo test hello statement" b
+echo 'hello'; 
+endsnippet
+
+snippet acf_image_array "get acf image with array format return" b
+<?php $${1:image} = get_field(${1:image});
+if( !empty( $${1:image} ) ): ?>
+    <img src="<?php echo esc_url($${1:image}['url']); ?>" alt="<?php echo esc_attr($${1:image}['alt']); ?>" />
+<?php endif; ?>
+endsnippet
+
+snippet get_the_post_thumbnail "gets the posts thumbnial" b
+  <?php echo get_the_post_thumbnail($post->ID, $size, $attr); ?>
+endsnippet
+
+snippet div_bem_element "open and close div with bem and value" b
+<div class = "${1}__${2}">
+	${3}
+</div>
+endsnippet
+
+snippet p_bem_element "open and close p with bem and value" b
+<p class = "${1}__${2}">
+	${3}
+</p>
+endsnippet
+
+snippet ternary "test for result, output result if result is true,  if result is false output emptiness" b
+$result = $condition ? 'true' : 'false';
+endsnippet
+
+snippet ternary-has-template-args "ternary to check if args is true for get_template_part wp" b
+	echo $${1} = !empty($args['${1}']) ? $args['${1}'] : '';
+endsnippet
+
+snippet require "require file from inc/ folder in template directory" b
+require get_template_directory() . '/inc/${1}.php';
+endsnippet
+
+snippet register_nav_menus "Registers navigation menu locations for a wp theme." 
+register_nav_menus( array(
+	'${1:menu-name}' => esc_html__( '${2:menu-location-name}', '${3:text-domain}' ),
+) );
+endsnippet
+
+snippet register_sidebar "register widget area" b
+function _s_widgets_init()
+{
+	register_sidebar([
+		'name' => esc_html__('Footer 1', '_s'),
+		'id' => 'footer-1',
+		'description' => esc_html__('Add widgets here.', '_s'),
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget' => '</div></section>',
+		'before_title' => '<h3 class="widget-title">',
+		'after_title' => '</h3><div class="widget-content">',
+	]);
+	register_sidebar([
+		'name' => esc_html__('Footer 2', '_s'),
+		'id' => 'footer-2',
+		'description' => esc_html__('Add widgets here.', '_s'),
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget' => '</div></section>',
+		'before_title' => '<h3 class="widget-title">',
+		'after_title' => '</h3><div class="widget-content">',
+	]);
+}
+add_action('widgets_init', '_s_widgets_init');
+endsnippet
+
+snippet wp_nav_menu "output menu with set parameter values" 
+wp_nav_menu( array $args = array(
+    'menu'              => "${1:Desired menu. Accepts a menu ID, slug, name, or object}",
+    'theme_location'    => "${2}",
+    'menu_class'        => "${3}",
+    'menu_id'           => "${4}",
+    'container'         => "${5}",
+    'container_class'   => "${6}",
+));
+endsnippet
+
+snippet php "php open / close tag" 
+<?php ${1} ?>
+endsnippet
+
+snippet vd_with "var dump with tags" b
+  <?php var_dump($${1}); ?>
+endsnippet
+
+snippet vd_without "var dump without tags" b
+  var_dump($${1}); 
+endsnippet
+
+snippet vd_var_dump_nice "use pre print for formation" b
+            <pre><?php print_r( $term ); ?></pre>
+endsnippet
+
+snippet v_string "create string variable" b
+<?php $${1} = ''; ?>
+endsnippet
+
+
+snippet section-two-col "section two columns" b
+  <section class = "${1}">
+    <div class = "container">
+		<div class = "${1}__wrapper">
+        <div class = "${1}__col-wrapper">
+					<div class = "${1}__image-wrapper">
+					</div>
+          <h3 class = "${1}__title">Our History</h3>
+          <h4 class = "${1}__subtitle">
+          </h4>
+        </div>
+        <div class = "${1}__col-wrapper">
+          <p class = "${1}__text">
+          </p>
+				<div class = "${1}__button-wrapper">
+				<div class = "${1}__button"></div>
+				</div>
+				</div>
+    </div>
+    </div>
+  </section>
+endsnippet
+
+snippet section-text-with-image "section text with image" b
+  <section class = "text-with-image">
+    <div class = "container">
+      <div class="text-with-image__wrapper">
+        <div class = "text-with-image__image">
+          <img src="<?php echo get_template_directory_uri(); ?>/images/image.png" alt="image">
+       </div>
+        <div class = "text-with-image__meta-wrapper">
+          <h3 class = "text-with-image__title"></h3>
+          <p class = "text-with-image__text">
+          </p>
+          <div class = "text-with-image__btn">
+            <a href="#">Read More</a>
+          </div>
+        </div>
+			</div>
+    </div>
+  </section>
+endsnippet
+
+snippet div_bem_scaffold "div BEM scaffold" 
+	<div class = "${1}">
+		<div class = "container">
+				<div class = "${1}__title"></div>
+				<div class = "${1}__subtitle"></div>
+				<div class = "${1}__wrapper"></div>
+				<div class = "${1}__text"></div>
+				<div class = "${1}__image"></div>
+				<div class = "${1}__btn"></div>
+		</div>
+	</div>
+endsnippet
+
+snippet gf "acf field from options with php tags" b
+		<?php the_field('${1}', 'options') ?>
+endsnippet
+
+snippet gf "acf field with php tags" b
+		<?php the_field('${1}'); ?>
+endsnippet
+
+snippet gf "acf field no php tags" b
+		the_field('${1}'); 
+endsnippet
+
+snippet acf_get_sub_field_if_exists "check if acf sub field exists, if so get field" b
+<?php $${1} = get_sub_field('${1}'); ?>
+<?php 
+if ($${1}) { ?>
+          <?php echo $${1}; ?>
+<?php } ?>
+endsnippet
+
+snippet loop "wordpress loop wp" b
+<?php 
+if ( have_posts() ) : 
+    while ( have_posts() ) : the_post(); 
+        the_title( '<h2>', '</h2>' ); 
+        the_post_thumbnail(); 
+        the_excerpt();
+    endwhile; 
+else: 
+    _e( 'Sorry, no posts matched your criteria.', 'textdomain' ); 
+endif; 
+?>
+endsnippet
+
+snippet keap-reading-loop "loop through posts radomly to display posts at the end of single blog post" b
+<section class="keep-reading">
+	<div class="container">
+			<header class="keep-reading__header-wrapper">
+				<h2 class="keep-reading__title">Keep Reading</h2>
+				<a href="<?php echo get_permalink();?>" class="keep-reading__btn">VIEW ALL</a>
+			</header>
+		<div class="keep-reading__wrapper">
+				<?php 
+				$args = array(
+					'post_type' 		=> 'post',
+					'posts_per_page'   	=> 2,
+					'post_status'       => 'publish',
+					'order'				=> 'ASC',
+					'orderby'			=> 'rand'
+				);
+				$_posts = new WP_Query( $args );						
+				if( $_posts->have_posts() ) :
+					while( $_posts->have_posts() ) : $_posts->the_post();
+						get_template_part( 'template-parts/content', 'post-card', array('parentClass' => 'keep-reading') );
+					endwhile;
+				endif;
+			    wp_reset_postdata(); //important	
+				?>
+			</div>
+	</div>
+</section>
+endsnippet
+
+snippet get_term_thumbnail_image "get the term meta image url cpt taxonomy image" b
+<?php 
+$thumbnail_id = get_term_meta( $term->term_id, 'thumbnail_id', true );
+$image_url = wp_get_attachment_url( $thumbnail_id ); // This variable is returing the product category thumbnail image URL.
+?>
+endsnippet
+
+snippet post-card "post card include with custom parentClass" b
+<a class="<?php echo $args[
+  "parentClass"
+]; ?>__card-wrapper-link" href="<?php the_permalink(); ?>">
+  <?php echo get_the_post_thumbnail("", "news-block", [
+    "class" => "posts-with-filter__image",
+  ]); ?>
+  <div class="<?php echo $args["parentClass"]; ?>__meta-wrapper">
+      <div class="<?php echo $args["parentClass"]; ?>__card-date">
+      <?php
+      $post_date = get_the_date("F j, Y");
+      echo $post_date;
+      ?>
+      </div>
+      <div class="<?php echo $args["parentClass"] . "__card-title"; ?>">
+         <?php the_title(); ?> 
+      </div>
+  </div>
+</a>
+endsnippet
+
+snippet get_the_category "return an unlinked list of categories" b
+<?php
+$categories = get_the_category();
+
+if (!empty($categories)) {
+  echo esc_html($categories[0]->name);
+}
+?>
+endsnippet
+
+
+snippet get_categories_outside_of_loop "display list of categories outside of the loop" b
+    <ul>
+      <?php
+      $args = array(
+         'orderby' => 'slug',
+         'parent' => 0
+      );
+      $categories = get_categories( $args );
+      foreach ( $categories as $category ) {
+         echo '<li><a href="' . get_category_link( $category->term_id ) . '" rel="bookmark">' . $category->name . '' . '' . $category->description . '</a></li>';
+      }
+     ?>
+    </ul>
+endsnippet
+
+snippet share_on_social_media "links to share blog content on social facebook twitter" b
+<div class = "share__wrapper">
+	<h3>Share</h3>
+	<?php
+					$sb_title    = str_replace( ' ', '%20', get_the_title());
+					$sb_url     = urlencode(get_permalink());
+					$twitterURL  =  'https://twitter.com/intent/tweet?text='.$sb_title.'&amp;url='.$sb_url.'&amp;';
+					$facebookURL = 'https://www.facebook.com/sharer/sharer.php?u='.$sb_url;
+
+					echo '<a class="single-post__share facebook" href=" '. $facebookURL . '" target="_blank" rel="nofollow"><span class="icon"></span><span class="text">Share on Facebook</span></a>';
+					echo '<a class="single-post__share twitter" href="' . $twitterURL . '" target="_blank" rel="nofollow"><span class="icon"></span><span class="text">Share on Twitter</span></a>';
+	?>
+  </div>
+endsnippet
+
+
+snippet get_the_terms "get the categories" b
+$terms = get_terms( 'category' );
+echo '<ul>';
+foreach ( $terms as $term ) {
+
+	// The $term is an object, so we don't need to specify the $taxonomy.
+	$term_link = get_term_link( $term );
+
+	// If there was an error, continue to the next term.
+	if ( is_wp_error( $term_link ) ) {
+		continue;
+	}
+
+	// We successfully got a link. Print it out.
+	echo '<li><a href="' . esc_url( $term_link ) . '">' . $term->name . '</a></li>';
+}
+echo '</ul>';
+?>
+endsnippet
+
+
+snippet get_categories_of_post_in_loop "display the categories for the current post in the loop" b
+<?php 
+			/* translators: used between list items, there is a space after the comma */
+			$categories_list = get_the_category_list( esc_html__( ', ', 'nimblex' ) );
+			if ( $categories_list ) {
+				/* translators: 1: list of categories. */
+				printf( '<span class="cat-links">' . esc_html__( ' %1$s', 'nimblex' ) . '</span>', $categories_list ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			}
+      ?>
+endsnippet
+
+snippet enqueue_jquery_from_cdn "enque jquery from cdn for quick testing purposes" b
+    wp_enqueue_script( 'jQuery', 'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js', null, null, true );
+endsnippet
+
+snippet enqueue_style_only "Enqueue a CSS stylesheet." 
+wp_enqueue_style( '${1:handle}', get_stylesheet_directory_uri() . '/${2:src}', array(${3:deps}), null, true );
+endsnippet
+
+snippet enqueue_scripts_and_styles_with_action "the copmplete scripts and styles enqueue" b
+function ${1}_enqueue_scripts() {
+    wp_enqueue_style( 'style-name', get_stylesheet_uri() );
+    wp_enqueue_script( 'script-name', get_template_directory_uri() . '/js/example.js', array(), '1.0.0', true );
+}
+add_action( 'wp_enqueue_scripts', '${1}_enqueue_scripts' );
+endsnippet
+
+snippet enqueue_script_only "Enqueue a js file"
+wp_enqueue_script( '${1:handle}', get_template_directory_uri() . '/${2:src}', array(${3:deps}), null, true );
+endsnippet
+
+snippet enqueue_style_footer "load style in footer" b
+function ${1}_style_footer() {
+    wp_enqueue_style('${1}_css', '/public/frontend.css');
+};
+add_action( 'get_footer', '${1}_style_footer' );
+endsnippet
+
+snippet date_of_post "output the post date " b
+<?php $post_date = get_the_date( 'l F j, Y' ); echo $post_date;  ?>
+endsnippet
+
+
+
+
+
+
+snippet get_gutenberg_block "get gutenberg block by id" b
+<?php 
+// get reusable gutenberg block for CTA
+      $reuse_block = get_post( 721 ); 
+      $reuse_block_content = apply_filters( 'the_content', $reuse_block->post_content);
+      echo $reuse_block_content;
+?>
+endsnippet
+
+snippet get_template_part_with_params "get_template_part with params for text with image" b
+<?php get_template_part( 'template-parts/content', '${1}', array( 
+'title' => '', 
+'image' => '', 
+'text' => 'text', 
+'link' => '', 
+'link-label' => '' )
+); ?>
+endsnippet
+
+snippet get_template_part_with_title_and_content_args "template part for title and content" b
+   <?php get_template_part( 'template-parts/services/website_management/part', 'faq', array( 
+      'Title' => '', 
+			'Content' => '<p> </p>'
+   )); ?>
+endsnippet
+
+snippet get_template_part_content_part "template part with parent class param" b
+                    <?php get_template_part( 'template-parts/content-parts/content', 'text', array('parentClass' => 'cards')); ?>
+endsnippet
+
+snippet get_template_part "Loads a template part into a template." b
+<?php get_template_part( 'template-parts/content', ${1}, array( '${2}' => ${3})); ?>
+endsnippet
+
+snippet readtime "estimated reading time function, for use with echo" b
+//estimated reading time
+function reading_time() {
+$content = get_post_field( 'post_content', $post->ID );
+$word_count = str_word_count( strip_tags( $content ) );
+$readingtime = ceil($word_count / 200);
+if ($readingtime == 1) {
+$timer = " minute";
+} else {
+$timer = " minutes";
+}
+$totalreadingtime = $readingtime . $timer;
+return $totalreadingtime;
+}
+endsnippet
+
+snippet font_sizes_gutenberg "run as standalone funciton in functions.php" b
+<?php 
+/**
+ * disable default font editor 
+ * add in custom fonts 
+ * define font sizes in css 
+ * has-pxs-large-font-size
+ */
+function pxs_disable_gutenberg_typography_settings() {
+	add_theme_support( 'editor-font-sizes' );
+	add_theme_support( 'disable-custom-font-sizes' );
+}
+add_action( 'after_setup_theme', 'pxs_disable_gutenberg_typography_settings' );
+
+function pxs_define_font_sizes() {
+	add_theme_support(
+		'editor-font-sizes',
+		[
+			[
+				'name' => __( 'Small', 'pxs' ),
+				'size' => 12,
+				'slug' => 'pxs-small',
+			],
+			[
+				'name' => __( 'Medium', 'pxs' ),
+				'size' => 16,
+				'slug' => 'pxs-medium',
+			],
+			[
+				'name' => __( 'Large', 'pxs' ),
+				'size' => 22,
+				'slug' => 'pxs-large',
+			],
+			[
+				'name' => __( 'Extra-large', 'pxs' ),
+				'size' => 30,
+				'slug' => 'pxs-extra-large',
+			],
+		]
+	);
+}
+add_action( 'after_setup_theme', 'pxs_define_font_sizes' );
+?>
+endsnippet
+
+snippet author-meta "author meta name, avatar, image" b
+<div class="author-meta-box">
+	<div class="author-meta-box__avatar">
+	 <?php echo get_avatar($post->ID) ?>
+	</div>
+	<div class="author-meta-box__text">
+		<strong class="text__name"><?php  the_author(); ?></strong>
+		<p class = "text__description"><?php  the_author_meta('description'); ?></p>
+	</div>
+</div>
+endsnippet
+
+snippet author-meta-using-acf "author meta using acf - fields: name, postition, image, bio" b
+<section class="author-meta">
+          <div class="container">
+            <div class="author-meta__wrapper">
+            <?php
+              $user_id = get_the_author_meta('ID');
+              $user_acf_prefix = 'user_';
+              $user_id_prefixed = $user_acf_prefix . $user_id;
+            ?>
+            <div class="author-meta__image-wrapper">
+              <?php //set image as id in acf settings ?>
+              <?php $user_custom_image = get_field( 'user_custom_image', $user_id_prefixed ); ?>
+              <?php $size = 'thumbnail'; ?>
+              <?php if ( $user_custom_image ) : ?>
+                <?php echo wp_get_attachment_image( $user_custom_image, $size ); ?>
+              <?php endif; ?>					
+            </div>
+            <div class="author-meta__meta-wrapper">
+              <h3 class="author-meta__name"><?php echo get_the_author_meta('display_name'); ?></h3>
+              <p class="author-meta__bio"><?php the_field( 'user_custom_bio', $user_id_prefixed ); ?></p>
+              <p class="author-meta__position"> <?php the_field( 'user_position', $user_id_prefixed ); ?> </p>
+            </div>
+          </div>
+        </div>
+			</section>
+endsnippet
+
+snippet share "btns to share content to social media" b
+          <section class = "share">
+            <div class="share__wrapper">
+                <?php
+                        $sb_title    = str_replace( ' ', '%20', get_the_title());
+                        $sb_url     = urlencode(get_permalink());
+                        $twitterURL  =  'https://twitter.com/intent/tweet?text='.$sb_title.'&amp;url='.$sb_url.'&amp;';
+                        $facebookURL = 'https://www.facebook.com/sharer/sharer.php?u='.$sb_url;
+
+                        echo '<div class = "share__btn-wrapper">';
+                        echo '<a class="share__btn share__btn--facebook" href=" '. $facebookURL . '" target="_blank" rel="nofollow"><span class="icon"></span><span class="share__btn-label">Share on Facebook</span></a>';
+                       echo '<a class="share__btn share__btn--twitter" href="' . $twitterURL . '" target="_blank" rel="nofollow"><span class="icon"></span><span class="share__btn-label">Share on Twitter</span></a>';
+                        echo '</div>';
+                ?>
+            </div>
+        </section>
+endsnippet
+
+snippet comment-php-single-line "a single line php comment" b
+<?php //${1} ?>
+endsnippet
+
+
+snippet comment-php-multiline "a multi-line php comment" b
+/**
+ * This is a
+ * multi-line
+ * comment
+ */
+endsnippet
+
+snippet html-commenthtml--single-line "a single-line html comment" b
+<!-- ${1} -->
+endsnippet
+
+snippet new_wp_query "new wp query" b
+<?php
+$args = array(
+    'post_type' => 'posts',
+    'posts_per_page' => 4,
+);
+// The Query
+$the_query = new WP_Query( $args );
+// The Loop
+if ( $the_query->have_posts() ) {
+    echo '<section class = "${1}">';
+    echo '<div class = "${1}__wrapper">';
+    while ( $the_query->have_posts() ) {
+        $the_query->the_post();
+        echo '<div class = "${1}__post-item">';
+        echo '<h3 class = "${1}__post-title">' . get_the_title() . '</h3>';
+        echo '</div>';
+    }
+    echo '</div>';
+    echo '</section>';
+} else {
+    // no posts found
+}
+/* Restore original Post Data */
+wp_reset_postdata(); 
+?>
+endsnippet
+
+snippet wp_query_output-list "new wp query"
+<?php
+$args = array(
+    'post_type' => '${1}',
+		'posts_per_page' => -1,
+);
+// The Query
+$the_query = new WP_Query( $args );
+// The Loop
+if ( $the_query->have_posts() ) {
+    echo '<ul>';
+    while ( $the_query->have_posts() ) {
+        $the_query->the_post();
+        echo '<li>' . get_the_title() . '</li>';
+    }
+    echo '</ul>';
+} else {
+    // no posts found
+}
+/* Restore original Post Data */
+wp_reset_postdata(); 
+?>
+endsnippet
+
+snippet add-custom-image-size-function "add custom image size function" b
+    /**
+     * Add custom image sizes
+     */
+    if ( function_exists( 'add_image_size' ) ) { 
+      add_image_size( 'post-feature-img', 770, 120, true ); //(cropped)
+      add_image_size( 'member-img', 200, 200, false ); //(scaled)
+      add_image_size( 'people-img', 360, 360, true ); //(cropped)
+      add_image_size( 'people-featured-img', 150, 120, true ); //(cropped)
+    }
+endsnippet
+
+snippet acf-output-custom-image-size "use a custom image size in acf image" b
+					<?php $image = get_sub_field( 'image' ); ?>
+          <?php 
+              $size = 'gallery-slide-img';
+              $thumb = $image['sizes'][ $size ];
+              $width = $image['sizes'][ $size . '-width' ];
+              $height = $image['sizes'][ $size . '-height' ];
+          ?>
+					<?php if ( $image ) : ?>
+            <div class = "gallery__image">
+                <img src="<?php echo esc_url( $thumb ); ?>" alt="<?php echo esc_attr( $image['alt'] ); ?>" />
+            </div>
+					<?php endif; ?>
+endsnippet
+
+snippet yoast_breadcrumb "yoast breadcrumbs" b
+<?php if ( function_exists('yoast_breadcrumb') ) {  ?>
+  <section class="breadcrumbs">
+		<div class="container">
+      <div class="breadcrumbs__wrapper">
+          <?php
+          if ( function_exists('yoast_breadcrumb') ) {
+            yoast_breadcrumb( '<p id="breadcrumbs">','</p>' );
+          }
+          ?>
+      </div>
+		</div>
+  </section>
+<?php } ?>
+endsnippet
+
+snippet accordions "accordions using acf and html 5" b
+  <section class = "accordion">
+    <div class = "container">
+      <div class="accordion__wrapper">
+        <div class="accordion__title-wrapper">
+           <h3> <?php the_sub_field( 'title' ); ?> </h3>
+        </div>
+        <div class = "accordion__accordion-wrapper">
+			<?php if ( have_rows( 'accordion' ) ) : ?>
+				<?php while ( have_rows( 'accordion' ) ) : the_row(); ?>
+          <details>
+            <summary> <?php the_sub_field( 'title' ); ?> </summary>
+            <div class="options-wrapper">
+              <a class="option" href="#"> <?php the_sub_field( 'text' ); ?> </a>
+            </div>
+          </details>
+				<?php endwhile; ?>
+			<?php else : ?>
+				<?php // No rows found ?>
+			<?php endif; ?>
+        </div>
+      </div>
+    </div>
+  </section>
+endsnippet
+
+snippet yoast_move_to_bottom "get yoast out of the way of the content" b
+// Move Yoast Meta Box to bottom
+function yoasttobottom() {
+	return 'low';
+}
+add_filter( 'wpseo_metabox_prio', 'yoasttobottom');
+endsnippet
+
+
+snippet shortcode_gravity_forms "echo gravity forms shortcode " b
+<?php echo do_shortcode('[gravityform id="1" title="false" description="false" ajax="true" tabindex="49" field_values="check=First Choice,Second Choice"]'); ?>
+endsnippet
+
+snippet excerpt_length "filter the excerpt length" b
+function pxs_custom_excerpt_length( $length ) {
+    return 20;
+}
+add_filter( 'excerpt_length', 'pxs_custom_excerpt_length', 999 )
+endsnippet
+
+snippet the_excerpt "the excerpt" b
+<?php the_excerpt() ?>
+endsnippet
+
+snippet shortcode "echo generic  shortcode " b
+<?php echo do_shortcode(''); ?>
+endsnippet
+
+snippet echo_args "echo the args of get_template_part" b
+    <?php echo $args['${1}']; ?>
+endsnippet
+
+snippet echo_args "echo the args of get_template_part without php tags" b
+    echo $args['${1}']; 
+endsnippet
+
+snippet div_with_classArgs "Description" b
+      <div class="<?php echo $args["${1}"] . "__${2}"; ?>">
+			${3}
+			</div>
+endsnippet
+
+snippet title "wordpress post / page title" b
+		<div class = "single-post__title">
+			<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
+		</div>
+endsnippet
+
+snippet get_posts "get the 3 latest posts from the blog" b
+    <?php
+    $latest_posts = get_posts( array(
+        'posts_per_page' => 3,
+        'orderby'        => 'latest'
+    ) );
+     
+    if ( $latest_posts ) {
+      foreach ( $latest_posts as $post ) : 
+        setup_postdata( $post );
+        ?>
+        <div class = "latest-news__item-wrapper">
+          <div class = "latest-news__image">
+            <?php echo get_the_post_thumbnail( $post->ID, 'thumbnail', array( 'class' => 'alignleft' ) ); ?>
+          </div>
+          <div class = "latest-news__title">
+            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+          </div>
+        <div class = "latest-news__text">
+          <?php the_excerpt(); ?>
+        </div>
+        <div class = "latest-news__btn">
+            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+        </div>
+        </div>
+        <?php
+    endforeach; 
+    wp_reset_postdata();
+    }
+    ?>
+endsnippet
+
+
+snippet read-more-link "the permalink to the post use inside loop" b
+          <div class="<?php echo $args["parentClass"] .
+            "__read-more-btn-wrapper"; ?>">
+            <a class = "<?php echo $args["parentClass"] .
+              "__read-more-btn-link"; ?>" href=" <?php the_permalink(); ?>">Read More
+            </a>
+          </div>
+endsnippet
+
+snippet btn "btn with permalink" b
+  <div class="${1}__btn-wrapper">
+      <a class="${1}__btn" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">Find Out More</a>
+  </div>
+endsnippet
+
+snippet get_permalink "get the permalink" b
+    <a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a>
+endsnippet
+
+snippet filter_posts_pre_get_posts_function "put in functions file in theme setup" b
+      function pxs_filter_posts( $query ) {
+        if ( ! is_admin() && $query->is_main_query()  ) {
+            $taxquery = array(
+              'relation' => 'AND'
+            );
+            if(isset($_GET['term']) && !empty($_GET['term'])){
+              $term = $_GET['term'];
+              $taxquery[] = array(
+                  'taxonomy' => 'category',
+                  'field' => 'slug',
+                  'terms' => $term,
+              );
+              $query->set( 'posts_per_page', -1);
+            }
+            $query->set( 'tax_query', $taxquery );
+        }
+        return $query;
+      }
+      add_action( 'pre_get_posts', 'pxs_filter_posts');
+endsnippet
+
+snippet form_filter_filter_terms "checkbox form filter terms" b
+  <?php $terms = get_terms( array(
+    'taxonomy' => 'category',
+    'hide_empty' => false,
+  )); 
+  ?>
+          <form class="${1}__form" method="GET" id="filterPosts" name="filterPosts">
+                <input class="${1}__checkbox" type="checkbox" value="" id="0" name="term[]">
+                <label class="${1}__label" for="0">ALL</label>
+              <?php foreach($terms as $term_value): ?>
+                <div class="${1}__button">
+                  <input class="${1}__checkbox" type="checkbox" value="<?php echo $term_value->slug; ?>" id="<?php echo $term_value->term_taxonomy_id; ?>" name="term[]">
+                  <label class="${1}__label" for="<?php echo $term_value->term_taxonomy_id; ?>"><?php echo $term_value->name; ?></label>
+                </div>
+              <?php endforeach; ?>
+          </form>
+endsnippet
+
+snippet custom_post_type_cpt "register custom post type" b
+/**
+ * Register a custom post type called "${1}".
+ *
+ * @see get_post_type_labels() for label keys.
+ */
+function pxs_${1}_init() {
+    $labels = array(
+        'name'                  => _x( '${1}s', 'Post type general name', 'textdomain' ),
+        'singular_name'         => _x( '${1}', 'Post type singular name', 'textdomain' ),
+        'menu_name'             => _x( '${1}', 'Admin Menu text', 'textdomain' ),
+        'name_admin_bar'        => _x( '${1}', 'Add New on Toolbar', 'textdomain' ),
+        'add_new'               => __( 'Add New', 'textdomain' ),
+        'add_new_item'          => __( 'Add New ${1}', 'textdomain' ),
+        'new_item'              => __( 'New ${1}', 'textdomain' ),
+        'edit_item'             => __( 'Edit ${1}', 'textdomain' ),
+        'view_item'             => __( 'View ${1}', 'textdomain' ),
+        'all_items'             => __( 'All ${1}s', 'textdomain' ),
+        'search_items'          => __( 'Search ${1}s', 'textdomain' ),
+        'parent_item_colon'     => __( 'Parent ${1}s:', 'textdomain' ),
+        'not_found'             => __( 'No books found.', 'textdomain' ),
+        'not_found_in_trash'    => __( 'No books found in Trash.', 'textdomain' ),
+        'featured_image'        => _x( '${1} Cover Image', 'Overrides the “Featured Image” phrase for this post type. Added in 4.3', 'textdomain' ),
+        'set_featured_image'    => _x( 'Set cover image', 'Overrides the “Set featured image” phrase for this post type. Added in 4.3', 'textdomain' ),
+        'remove_featured_image' => _x( 'Remove cover image', 'Overrides the “Remove featured image” phrase for this post type. Added in 4.3', 'textdomain' ),
+        'use_featured_image'    => _x( 'Use as cover image', 'Overrides the “Use as featured image” phrase for this post type. Added in 4.3', 'textdomain' ),
+        'archives'              => _x( '${1} archives', 'The post type archive label used in nav menus. Default “Post Archives”. Added in 4.4', 'textdomain' ),
+        'insert_into_item'      => _x( 'Insert into book', 'Overrides the “Insert into post”/”Insert into page” phrase (used when inserting media into a post). Added in 4.4', 'textdomain' ),
+        'uploaded_to_this_item' => _x( 'Uploaded to this book', 'Overrides the “Uploaded to this post”/”Uploaded to this page” phrase (used when viewing media attached to a post). Added in 4.4', 'textdomain' ),
+        'filter_items_list'     => _x( 'Filter books list', 'Screen reader text for the filter links heading on the post type listing screen. Default “Filter posts list”/”Filter pages list”. Added in 4.4', 'textdomain' ),
+        'items_list_navigation' => _x( '${1}s list navigation', 'Screen reader text for the pagination heading on the post type listing screen. Default “Posts list navigation”/”Pages list navigation”. Added in 4.4', 'textdomain' ),
+        'items_list'            => _x( '${1}s list', 'Screen reader text for the items list heading on the post type listing screen. Default “Posts list”/”Pages list”. Added in 4.4', 'textdomain' ),
+    );
+ 
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array( 'slug' => 'book' ),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => null,
+        'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
+    );
+ 
+    register_post_type( '${1}', $args );
+}
+ 
+add_action( 'init', 'pxs_${1}_init' );
+endsnippet
+
+snippet pagination_simple "pxs function for pagination" b
+<?php 
+// Number Pagination Function
+//wp_query needs to work with your query
+//this may only work on project archive template
+function pxs_number_pagination() {
+	global $wp_query;
+	$big = 9999999; // need an unlikely integer
+	echo paginate_links( array(
+		'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+		'format' => '?paged=%#%',
+		'current' => max( 1, get_query_var('paged') ),
+		'total' => $wp_query->max_num_pages)
+	);
+}
+?>
+endsnippet
+
+snippet pagination_numeric_posts_nav "see styles called pagination_numeric_posts_nav" b
+// numeric navigation
+function pxs_numeric_posts_nav() {
+
+	if ( is_singular() ) {
+		return;
+	}
+
+	global $wp_query;
+
+	/** Stop execution if there's only 1 page */
+	if ( $wp_query->max_num_pages <= 1 ) {
+		return;
+	}
+
+	$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
+	$max   = intval( $wp_query->max_num_pages );
+
+	/** Add current page to the array */
+	if ( $paged >= 1 ) {
+		$links[] = $paged;
+	}
+
+	/** Add the pages around the current page to the array */
+	if ( $paged >= 3 ) {
+		$links[] = $paged - 1;
+		$links[] = $paged - 2;
+	}
+
+	if ( ( $paged + 2 ) <= $max ) {
+		$links[] = $paged + 2;
+		$links[] = $paged + 1;
+	}
+
+	echo '<div id="page-navigation" class="page-navigation"><ul>' . "\n";
+
+	/** Previous Post Link */
+	if ( get_previous_posts_link() ) {
+		printf( '<li class="prev_link">%s</li>' . "\n", get_previous_posts_link() );
+	}
+
+	/** Link to first page, plus ellipses if necessary */
+	if ( ! in_array( 1, $links ) ) {
+		$class = 1 == $paged ? ' class="active"' : '';
+
+		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( 1 ) ), '1' );
+
+		if ( ! in_array( 2, $links ) ) {
+			echo '<li><span>…</span></li>';
+		}
+	}
+
+	/** Link to current page, plus 2 pages in either direction if necessary */
+	sort( $links );
+	foreach ( (array) $links as $link ) {
+		$class = $paged == $link ? ' class="active"' : '';
+		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( $link ) ), $link );
+	}
+
+	/** Link to last page, plus ellipses if necessary */
+	if ( ! in_array( $max, $links ) ) {
+		if ( ! in_array( $max - 1, $links ) ) {
+			echo '<li><span>…</span></li>' . "\n";
+		}
+
+		$class = $paged == $max ? ' class="active"' : '';
+		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( $max ) ), $max );
+	}
+
+	/** Next Post Link */
+	if ( get_next_posts_link() ) {
+		printf( '<li class="next_link">%s</li>' . "\n", get_next_posts_link() );
+	}
+	echo '</ul></div>' . "\n";
+
+}
+endsnippet
+
+snippet image "acf image sub field" b
+        <?php $image = get_sub_field( 'image' ); ?>
+        <?php if ( $image ) : ?>
+          <img src="<?php echo esc_url( $image['url'] ); ?>" alt="<?php echo esc_attr( $image['alt'] ); ?>" />
+        <?php endif; ?>
+endsnippet
+
+snippet cpt_taxonomy "register cpt multiple taxonomies" b
+function pxs_register_multiple_taxonomies() {
+
+	$taxonomies = array(
+		array(
+			'slug'         => 'job-department',
+			'single_name'  => 'Department',
+			'plural_name'  => 'Departments',
+			'post_type'    => 'jobs',
+			'rewrite'      => array( 'slug' => 'department' ),
+		),
+		array(
+			'slug'         => 'job-type',
+			'single_name'  => 'Type',
+			'plural_name'  => 'Types',
+			'post_type'    => 'jobs',
+			'hierarchical' => false,
+		),
+		array(
+			'slug'         => 'job-experience',
+			'single_name'  => 'Min-Experience',
+			'plural_name'  => 'Min-Experiences',
+			'post_type'    => 'jobs',
+		),
+	);
+
+	foreach( $taxonomies as $taxonomy ) {
+		$labels = array(
+			'name' => $taxonomy['plural_name'],
+			'singular_name' => $taxonomy['single_name'],
+			'search_items' =>  'Search ' . $taxonomy['plural_name'],
+			'all_items' => 'All ' . $taxonomy['plural_name'],
+			'parent_item' => 'Parent ' . $taxonomy['single_name'],
+			'parent_item_colon' => 'Parent ' . $taxonomy['single_name'] . ':',
+			'edit_item' => 'Edit ' . $taxonomy['single_name'],
+			'update_item' => 'Update ' . $taxonomy['single_name'],
+			'add_new_item' => 'Add New ' . $taxonomy['single_name'],
+			'new_item_name' => 'New ' . $taxonomy['single_name'] . ' Name',
+			'menu_name' => $taxonomy['plural_name']
+		);
+		
+		$rewrite = isset( $taxonomy['rewrite'] ) ? $taxonomy['rewrite'] : array( 'slug' => $taxonomy['slug'] );
+		$hierarchical = isset( $taxonomy['hierarchical'] ) ? $taxonomy['hierarchical'] : true;
+	
+		register_taxonomy( $taxonomy['slug'], $taxonomy['post_type'], array(
+			'hierarchical' => $hierarchical,
+			'labels' => $labels,
+			'show_ui' => true,
+			'query_var' => true,
+			'rewrite' => $rewrite,
+      'show_admin_column' => true,
+
+		));
+	}
+	
+}
+add_action( 'init', 'pxs_register_multiple_taxonomies' );
+endsnippet
+
+snippet shortcode "Description" b
+//[phoneAU]
+function phone_number( $atts ){
+
+  $a = shortcode_atts( array(
+		'class' => ' ',
+		'text' => '1300 362 436',
+	), $atts );
+
+  $classname = $a['class'];
+  $text = $a['text'];
+
+    return "<a class = '$classname' href = 'tel: 1300362436'>$text</a>";
+}
+add_shortcode( 'phoneAU', 'phone_number' );
+endsnippet
+
+snippet micromodal "micromodal html scaffold" b
+<div id="modal-1" aria-hidden="true">
+  <div tabindex="-1" data-micromodal-close>
+    <div role="dialog" aria-modal="true" aria-labelledby="modal-1-title" >
+      <header>
+        <h2 id="modal-1-title">
+          Modal Title
+        </h2>
+        <button aria-label="Close modal" data-micromodal-close></button>
+      </header>
+      <div id="modal-1-content">
+        Modal Content
+      </div>
+    </div>
+  </div>
+</div>
+endsnippet
+
+snippet acf_theme_options "create acf theme options pages" b
+if( function_exists('acf_add_options_page') ) {
+	acf_add_options_page(array(
+		'page_title' 	=> 'Theme General Settings',
+		'menu_title'	=> 'Theme Settings',
+		'menu_slug' 	=> 'theme-general-settings',
+		'capability'	=> 'edit_posts',
+		'redirect'		=> false
+	));
+	acf_add_options_sub_page(array(
+		'page_title' 	=> 'Theme Footer Settings',
+		'menu_title'	=> 'Footer',
+		'parent_slug'	=> 'theme-general-settings',
+	));
+}
+endsnippet
