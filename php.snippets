@@ -1,6 +1,3 @@
-snippet remove_action "remove a function from a hook" b
-remove_action ( string $hook_name 'The action hook to which the function to be removed is hooked.', callable $callback 'The name of the function which should be removed.' , int $priority = 10 );
-endsnippet
 
 snippet use_global "use global or local page block data" b
 <?php if ( get_sub_field( 'use_global' ) == 1 ) :
@@ -19,18 +16,57 @@ define('STAGING_URL', '');
 define('LIVE_URL', '');
 endsnippet
 
+#action_snippets start here
+
 snippet add_action "add a function to a hook" b
 add_action('action hook to which to add the funciton','the function to run', priority);
 endsnippet
+
+snippet remove_action "remove a function from a hook" b
+	 remove_action ( string $hook_name 'The action hook to which the function to be removed is hooked.', callable $callback 'The name of the function which should be removed.' , int $priority = 10 );
+endsnippet
+
+#theme_snippets start here
 snippet get_theme_directory_child "get the theme directory for child theme" b
 echo get_stylesheet_directory_uri();
 endsnippet
+
 snippet get_theme_directory "get the theme directory for the current theme" b
 echo get_template_directory_uri();
 endsnippet
 
+
+#string_snippets start here
+
 snippet string_replace "strip dash from the variable string output" b
      $form_val_str_rep = str_replace("-", " ", $form_val[0]);
+endsnippet
+
+
+#acf_snippets start here
+
+snippet acf_theme_options "create acf theme options pages" b
+if( function_exists('acf_add_options_page') ) {
+	acf_add_options_page(array(
+		'page_title' 	=> 'Theme General Settings',
+		'menu_title'	=> 'Theme Settings',
+		'menu_slug' 	=> 'theme-general-settings',
+		'capability'	=> 'edit_posts',
+		'redirect'		=> false
+	));
+	acf_add_options_sub_page(array(
+		'page_title' 	=> 'Theme Footer Settings',
+		'menu_title'	=> 'Footer',
+		'parent_slug'	=> 'theme-general-settings',
+	));
+}
+endsnippet
+
+snippet acf_image_array "get acf image with array format return" b
+<?php $${1:image} = get_field(${1:image});
+if( !empty( $${1:image} ) ): ?>
+    <img src="<?php echo esc_url($${1:image}['url']); ?>" alt="<?php echo esc_attr($${1:image}['alt']); ?>" />
+<?php endif; ?>
 endsnippet
 
 snippet flexible_block_display_acf "function to output page builder blocks or only return list of blocks" b
@@ -54,6 +90,8 @@ snippet flexible_block_display_acf "function to output page builder blocks or on
     }
 endsnippet
 
+
+#custom-post-type_snippets cpt_snippets start here
 snippet is_post_type "conditional statement based on post type check" b
         <?php 
         if ('${1}' == get_post_type()) {
@@ -64,6 +102,67 @@ snippet is_post_type "conditional statement based on post type check" b
         ?>
 endsnippet
 
+snippet cpt_taxonomy "register cpt multiple taxonomies" b
+function pxs_register_multiple_taxonomies() {
+
+	$taxonomies = array(
+		array(
+			'slug'         => 'job-department',
+			'single_name'  => 'Department',
+			'plural_name'  => 'Departments',
+			'post_type'    => 'jobs',
+			'rewrite'      => array( 'slug' => 'department' ),
+		),
+		array(
+			'slug'         => 'job-type',
+			'single_name'  => 'Type',
+			'plural_name'  => 'Types',
+			'post_type'    => 'jobs',
+			'hierarchical' => false,
+		),
+		array(
+			'slug'         => 'job-experience',
+			'single_name'  => 'Min-Experience',
+			'plural_name'  => 'Min-Experiences',
+			'post_type'    => 'jobs',
+		),
+	);
+
+	foreach( $taxonomies as $taxonomy ) {
+		$labels = array(
+			'name' => $taxonomy['plural_name'],
+			'singular_name' => $taxonomy['single_name'],
+			'search_items' =>  'Search ' . $taxonomy['plural_name'],
+			'all_items' => 'All ' . $taxonomy['plural_name'],
+			'parent_item' => 'Parent ' . $taxonomy['single_name'],
+			'parent_item_colon' => 'Parent ' . $taxonomy['single_name'] . ':',
+			'edit_item' => 'Edit ' . $taxonomy['single_name'],
+			'update_item' => 'Update ' . $taxonomy['single_name'],
+			'add_new_item' => 'Add New ' . $taxonomy['single_name'],
+			'new_item_name' => 'New ' . $taxonomy['single_name'] . ' Name',
+			'menu_name' => $taxonomy['plural_name']
+		);
+		
+		$rewrite = isset( $taxonomy['rewrite'] ) ? $taxonomy['rewrite'] : array( 'slug' => $taxonomy['slug'] );
+		$hierarchical = isset( $taxonomy['hierarchical'] ) ? $taxonomy['hierarchical'] : true;
+	
+		register_taxonomy( $taxonomy['slug'], $taxonomy['post_type'], array(
+			'hierarchical' => $hierarchical,
+			'labels' => $labels,
+			'show_ui' => true,
+			'query_var' => true,
+			'rewrite' => $rewrite,
+      'show_admin_column' => true,
+
+		));
+	}
+	
+}
+add_action( 'init', 'pxs_register_multiple_taxonomies' );
+endsnippet
+
+
+#woo_snippets start here
 snippet get_sku_number "woocommerce get sku product number" b
 function poly_show_product_sku() {
   if ('product' == get_post_type()) {
@@ -84,8 +183,10 @@ snippet slick-slider "Description" b
 endsnippet
 
 
-snippet ternary-acf-class-output "condtional check for acf option to output class" b
-	<?php $${1} = get_sub_field( '${1}' ) == 1 ?  '--${1}' : ''; ?> 
+#template_snippets start here
+
+snippet require "require file from inc/ folder in template directory" b
+require get_template_directory() . '/inc/${1}.php';
 endsnippet
 
 snippet 404_template "404 template - styles at 404" b
@@ -102,33 +203,27 @@ snippet 404_template "404 template - styles at 404" b
 				<a href="<?php echo esc_attr(get_bloginfo('url')); ?>" class="error-404__button">BACK TO HOME</a>
 			</div><!-- .page-content -->
 		</section><!-- .error-404 -->
-
 	</main><!-- #main -->
-
 <?php
 get_footer();
 endsnippet
+
+#section_snippets start here
 
 snippet section_bem_scaffold "section BEM scaffold" 
 	<section class = "${1}">
 		<div class = "container">
 			 <div class = "row">
 					 <div class = "${1}__wrapper">
-						 <h3 class = "${1}__title">
-
-						 </h3>
-						 <p class = "${1}__text">
-
-
-						 </p>
-					 </div>
-					 <div class = "${1}__image">
-
-
-					 </div>
-					 <div class = "${1}__btn">
-
-					 </div>
+								<h3 class = "${1}__title">
+								</h3>
+								<p class = "${1}__text">
+								</p>
+							</div>
+							<div class = "${1}__image">
+							</div>
+							<div class = "${1}__btn">
+							</div>
 					</div>
 			 </div>
 		</div>
@@ -263,18 +358,6 @@ snippet section-testimonial "testimonial block section acf bem scaffold" b
   </section>
 endsnippet
 
-snippet featured_image "output the featured_image in a loop" b
-echo get_the_post_thumbnail( $post_id, 'thumbnail', array( 'class' => 'alignleft' ) );
-endsnippet
-
-snippet img "get image from theme directory" b
-      <img src="<?php echo get_template_directory_uri(); ?>/images/${1}.${2}" alt="${3}">
-endsnippet
-
-snippet featured_img_url "url of image for use in background-image" b
-        <?php $featured_img_url = get_the_post_thumbnail_url(get_the_ID(),'medium'); ?>
-endsnippet
-
 snippet section-content-with-image-acf-block "section text with image acf block" b
 <?php if ( get_sub_field( 'direction' ) == 1 ) : ?>
 							<?php $direction = 'container--direction-reversed'; ?>
@@ -339,130 +422,6 @@ snippet section-content-with-image-acf-block "section text with image acf block"
 </section>
 endsnippet
 
-snippet function "function" b
-function ${1}() {
-	${2}
-}
-endsnippet
-
-snippet echo_variable "echo variable" b
-<?php echo $${1}; ?>
-endsnippet
-
-snippet echo_variable "echo variable no tags" b
-echo $${1}; 
-endsnippet
-
-snippet echo_hello_with_tags "echo test hello statement" b
-<?php echo 'hello'; ?>
-endsnippet
-
-snippet echo_html_tag_with_tags "echo test hello statement" b
-<?php echo '<${1}>'${2}'</${1}>'; ?>
-endsnippet
-
-snippet echo_hello_without_tags "echo test hello statement" b
-echo 'hello'; 
-endsnippet
-
-snippet acf_image_array "get acf image with array format return" b
-<?php $${1:image} = get_field(${1:image});
-if( !empty( $${1:image} ) ): ?>
-    <img src="<?php echo esc_url($${1:image}['url']); ?>" alt="<?php echo esc_attr($${1:image}['alt']); ?>" />
-<?php endif; ?>
-endsnippet
-
-snippet get_the_post_thumbnail "gets the posts thumbnial" b
-  <?php echo get_the_post_thumbnail($post->ID, $size, $attr); ?>
-endsnippet
-
-snippet div_bem_element "open and close div with bem and value" b
-<div class = "${1}__${2}">
-	${3}
-</div>
-endsnippet
-
-snippet p_bem_element "open and close p with bem and value" b
-<p class = "${1}__${2}">
-	${3}
-</p>
-endsnippet
-
-snippet ternary "test for result, output result if result is true,  if result is false output emptiness" b
-$result = $condition ? 'true' : 'false';
-endsnippet
-
-snippet ternary-has-template-args "ternary to check if args is true for get_template_part wp" b
-	echo $${1} = !empty($args['${1}']) ? $args['${1}'] : '';
-endsnippet
-
-snippet require "require file from inc/ folder in template directory" b
-require get_template_directory() . '/inc/${1}.php';
-endsnippet
-
-snippet register_nav_menus "Registers navigation menu locations for a wp theme." 
-register_nav_menus( array(
-	'${1:menu-name}' => esc_html__( '${2:menu-location-name}', '${3:text-domain}' ),
-) );
-endsnippet
-
-snippet register_sidebar "register widget area" b
-function _s_widgets_init()
-{
-	register_sidebar([
-		'name' => esc_html__('Footer 1', '_s'),
-		'id' => 'footer-1',
-		'description' => esc_html__('Add widgets here.', '_s'),
-		'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget' => '</div></section>',
-		'before_title' => '<h3 class="widget-title">',
-		'after_title' => '</h3><div class="widget-content">',
-	]);
-	register_sidebar([
-		'name' => esc_html__('Footer 2', '_s'),
-		'id' => 'footer-2',
-		'description' => esc_html__('Add widgets here.', '_s'),
-		'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget' => '</div></section>',
-		'before_title' => '<h3 class="widget-title">',
-		'after_title' => '</h3><div class="widget-content">',
-	]);
-}
-add_action('widgets_init', '_s_widgets_init');
-endsnippet
-
-snippet wp_nav_menu "output menu with set parameter values" 
-wp_nav_menu( array $args = array(
-    'menu'              => "${1:Desired menu. Accepts a menu ID, slug, name, or object}",
-    'theme_location'    => "${2}",
-    'menu_class'        => "${3}",
-    'menu_id'           => "${4}",
-    'container'         => "${5}",
-    'container_class'   => "${6}",
-));
-endsnippet
-
-snippet php "php open / close tag" 
-<?php ${1} ?>
-endsnippet
-
-snippet vd_with "var dump with tags" b
-  <?php var_dump($${1}); ?>
-endsnippet
-
-snippet vd_without "var dump without tags" b
-  var_dump($${1}); 
-endsnippet
-
-snippet vd_var_dump_nice "use pre print for formation" b
-            <pre><?php print_r( $term ); ?></pre>
-endsnippet
-
-snippet v_string "create string variable" b
-<?php $${1} = ''; ?>
-endsnippet
-
-
 snippet section-two-col "section two columns" b
   <section class = "${1}">
     <div class = "container">
@@ -506,6 +465,67 @@ snippet section-text-with-image "section text with image" b
   </section>
 endsnippet
 
+#image_snippets start here
+
+snippet acf_image_sub_field "acf image sub field" b
+<?php $image = get_sub_field( 'image' ); ?>
+<?php if ( $image ) : ?>
+		<img src="<?php echo esc_url( $image['url'] ); ?>" alt="<?php echo esc_attr( $image['alt'] ); ?>" />
+<?php endif; ?>
+
+endsnippet
+snippet get_the_post_thumbnail "gets the posts thumbnial" b
+  <?php echo get_the_post_thumbnail($post->ID, $size, $attr); ?>
+endsnippet
+
+snippet featured_image "output the featured_image in a loop" b
+echo get_the_post_thumbnail( $post_id, 'thumbnail', array( 'class' => 'alignleft' ) );
+endsnippet
+
+snippet img "get image from theme directory" b
+      <img src="<?php echo get_template_directory_uri(); ?>/images/${1}.${2}" alt="${3}">
+endsnippet
+
+snippet background-image-inline "echo bg image" b
+  <div class='whatevs' style="background-image: url('<?php echo $bg_img_url; ?>'); background-position:cover;">
+endsnippet
+
+snippet featured_img_url "url of image for use in background-image" b
+        <?php $featured_img_url = get_the_post_thumbnail_url(get_the_ID(),'medium'); ?>
+endsnippet
+
+snippet function "function" b
+function ${1}() {
+	${2}
+}
+endsnippet
+
+#variable_snippets start here
+
+snippet evt "echo variable" b
+<?php echo $${1}; ?>
+endsnippet
+
+snippet evnt "echo variable no tags" b
+echo $${1}; 
+endsnippet
+
+snippet est "echo test hello statement" b
+<?php echo 'hello'; ?>
+endsnippet
+
+snippet esnt "echo test hello statement" b
+echo 'hello'; 
+endsnippet
+
+snippet v_string "create string variable" b
+<?php $${1} = ''; ?>
+endsnippet
+
+# bem_html_snippets start here
+
+# div_snippets start here
+
 snippet div_bem_scaffold "div BEM scaffold" 
 	<div class = "${1}">
 		<div class = "container">
@@ -519,6 +539,113 @@ snippet div_bem_scaffold "div BEM scaffold"
 	</div>
 endsnippet
 
+
+snippet div_with_classArgs "Description" b
+      <div class="<?php echo $args["${1}"] . "__${2}"; ?>">
+			${3}
+			</div>
+endsnippet
+
+
+snippet div_bem_element "open and close div with bem and value" b
+<div class = "${1}__${2}">
+	${3}
+</div>
+endsnippet
+
+snippet div_close "closing div tag" b
+</div>
+endsnippet
+
+snippet p_bem_element "open and close p with bem and value" b
+<p class = "${1}__${2}">
+	${3}
+</p>
+endsnippet
+
+# ternary_snippets start here
+
+snippet ternary "test for result, output result if result is true,  if result is false output emptiness" b
+$result = $condition ? 'true' : 'false';
+endsnippet
+
+snippet ternary-has-template-args "ternary to check if args is true for get_template_part wp" b
+	echo $${1} = !empty($args['${1}']) ? $args['${1}'] : '';
+endsnippet
+
+snippet ternary-acf-class-output "condtional check for acf option to output class" b
+	<?php $${1} = get_sub_field( '${1}' ) == 1 ?  '--${1}' : ''; ?> 
+endsnippet
+
+#menu_snippets start here
+
+snippet register_nav_menus "Registers navigation menu locations for a wp theme." 
+register_nav_menus( array(
+	'${1:menu-name}' => esc_html__( '${2:menu-location-name}', '${3:text-domain}' ),
+) );
+endsnippet
+
+snippet wp_nav_menu "output menu with set parameter values" 
+wp_nav_menu( array $args = array(
+    'menu'              => "${1:Desired menu. Accepts a menu ID, slug, name, or object}",
+    'theme_location'    => "${2}",
+    'menu_class'        => "${3}",
+    'menu_id'           => "${4}",
+    'container'         => "${5}",
+    'container_class'   => "${6}",
+));
+endsnippet
+
+#widget_snippets start here
+
+snippet register_sidebar "register widget area" b
+function _s_widgets_init()
+{
+	register_sidebar([
+		'name' => esc_html__('Footer 1', '_s'),
+		'id' => 'footer-1',
+		'description' => esc_html__('Add widgets here.', '_s'),
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget' => '</div></section>',
+		'before_title' => '<h3 class="widget-title">',
+		'after_title' => '</h3><div class="widget-content">',
+	]);
+	register_sidebar([
+		'name' => esc_html__('Footer 2', '_s'),
+		'id' => 'footer-2',
+		'description' => esc_html__('Add widgets here.', '_s'),
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget' => '</div></section>',
+		'before_title' => '<h3 class="widget-title">',
+		'after_title' => '</h3><div class="widget-content">',
+	]);
+}
+add_action('widgets_init', '_s_widgets_init');
+endsnippet
+
+
+snippet php "php open / close tag" 
+<?php ${1} ?>
+endsnippet
+
+#var_dump_snippets start here
+snippet vd_with "var dump with tags" b
+  <?php var_dump($${1}); ?>
+endsnippet
+
+snippet vd_without "var dump without tags" b
+  var_dump($${1}); 
+endsnippet
+
+snippet vd_var_dump_nice "use pre print for formation" b
+            <pre><?php print_r( $term ); ?></pre>
+endsnippet
+
+
+
+
+
+
 snippet gf "acf field from options with php tags" b
 		<?php the_field('${1}', 'options') ?>
 endsnippet
@@ -531,12 +658,18 @@ snippet gf "acf field no php tags" b
 		the_field('${1}'); 
 endsnippet
 
-snippet acf_get_sub_field_if_exists "check if acf sub field exists, if so get field" b
+snippet if_acf_get_sub_field_if_exists "check if acf sub field exists, if so get field" b
 <?php $${1} = get_sub_field('${1}'); ?>
 <?php 
 if ($${1}) { ?>
           <?php echo $${1}; ?>
 <?php } ?>
+endsnippet
+
+snippet if_array_value_exists "check the array variable for a string value" b
+<?php if ($${1}['${2}']) { ?>
+
+	<?php } ?>
 endsnippet
 
 snippet loop "wordpress loop wp" b
@@ -553,7 +686,7 @@ endif;
 ?>
 endsnippet
 
-snippet keap-reading-loop "loop through posts radomly to display posts at the end of single blog post" b
+snippet keep-reading-loop "loop through posts radomly to display posts at the end of single blog post" b
 <section class="keep-reading">
 	<div class="container">
 			<header class="keep-reading__header-wrapper">
@@ -620,6 +753,17 @@ if (!empty($categories)) {
 ?>
 endsnippet
 
+snippet link_acf_php_variables "link acf php variables" b
+      <?php $link = get_sub_field( 'link'); ?>
+      <?php $link_url = esc_url( $link['url']); ?>
+      <?php $link_target = esc_attr( $link['target']); ?>
+      <?php $link_title = esc_attr( $link['title']); ?>
+      <?php $open_link = "<a href = '$link_url' target='$link_target'> " ?>
+      <?php $close_link = "</a>" ?>
+			 <?php if ( $link ) : ?>
+				 <?php echo $open_link . $link_title . $close_link; ?>
+			<?php endif; ?>
+endsnippet
 
 snippet get_categories_outside_of_loop "display list of categories outside of the loop" b
     <ul>
@@ -651,27 +795,22 @@ snippet share_on_social_media "links to share blog content on social facebook tw
   </div>
 endsnippet
 
-
 snippet get_the_terms "get the categories" b
 $terms = get_terms( 'category' );
 echo '<ul>';
 foreach ( $terms as $term ) {
-
 	// The $term is an object, so we don't need to specify the $taxonomy.
 	$term_link = get_term_link( $term );
-
 	// If there was an error, continue to the next term.
 	if ( is_wp_error( $term_link ) ) {
 		continue;
 	}
-
 	// We successfully got a link. Print it out.
 	echo '<li><a href="' . esc_url( $term_link ) . '">' . $term->name . '</a></li>';
 }
 echo '</ul>';
 ?>
 endsnippet
-
 
 snippet get_categories_of_post_in_loop "display the categories for the current post in the loop" b
 <?php 
@@ -1034,9 +1173,6 @@ snippet the_excerpt "the excerpt" b
 <?php the_excerpt() ?>
 endsnippet
 
-snippet shortcode "echo generic  shortcode " b
-<?php echo do_shortcode(''); ?>
-endsnippet
 
 snippet echo_args "echo the args of get_template_part" b
     <?php echo $args['${1}']; ?>
@@ -1046,11 +1182,6 @@ snippet echo_args "echo the args of get_template_part without php tags" b
     echo $args['${1}']; 
 endsnippet
 
-snippet div_with_classArgs "Description" b
-      <div class="<?php echo $args["${1}"] . "__${2}"; ?>">
-			${3}
-			</div>
-endsnippet
 
 snippet title "wordpress post / page title" b
 		<div class = "single-post__title">
@@ -1090,6 +1221,7 @@ snippet get_posts "get the 3 latest posts from the blog" b
     ?>
 endsnippet
 
+#link_snippets start here
 
 snippet read-more-link "the permalink to the post use inside loop" b
           <div class="<?php echo $args["parentClass"] .
@@ -1153,7 +1285,6 @@ endsnippet
 snippet custom_post_type_cpt "register custom post type" b
 /**
  * Register a custom post type called "${1}".
- *
  * @see get_post_type_labels() for label keys.
  */
 function pxs_${1}_init() {
@@ -1204,6 +1335,8 @@ function pxs_${1}_init() {
  
 add_action( 'init', 'pxs_${1}_init' );
 endsnippet
+
+#pagination_snippets start here
 
 snippet pagination_simple "pxs function for pagination" b
 <?php 
@@ -1301,73 +1434,9 @@ function pxs_numeric_posts_nav() {
 }
 endsnippet
 
-snippet image "acf image sub field" b
-        <?php $image = get_sub_field( 'image' ); ?>
-        <?php if ( $image ) : ?>
-          <img src="<?php echo esc_url( $image['url'] ); ?>" alt="<?php echo esc_attr( $image['alt'] ); ?>" />
-        <?php endif; ?>
-endsnippet
+#shortcode_snippets start here
 
-snippet cpt_taxonomy "register cpt multiple taxonomies" b
-function pxs_register_multiple_taxonomies() {
-
-	$taxonomies = array(
-		array(
-			'slug'         => 'job-department',
-			'single_name'  => 'Department',
-			'plural_name'  => 'Departments',
-			'post_type'    => 'jobs',
-			'rewrite'      => array( 'slug' => 'department' ),
-		),
-		array(
-			'slug'         => 'job-type',
-			'single_name'  => 'Type',
-			'plural_name'  => 'Types',
-			'post_type'    => 'jobs',
-			'hierarchical' => false,
-		),
-		array(
-			'slug'         => 'job-experience',
-			'single_name'  => 'Min-Experience',
-			'plural_name'  => 'Min-Experiences',
-			'post_type'    => 'jobs',
-		),
-	);
-
-	foreach( $taxonomies as $taxonomy ) {
-		$labels = array(
-			'name' => $taxonomy['plural_name'],
-			'singular_name' => $taxonomy['single_name'],
-			'search_items' =>  'Search ' . $taxonomy['plural_name'],
-			'all_items' => 'All ' . $taxonomy['plural_name'],
-			'parent_item' => 'Parent ' . $taxonomy['single_name'],
-			'parent_item_colon' => 'Parent ' . $taxonomy['single_name'] . ':',
-			'edit_item' => 'Edit ' . $taxonomy['single_name'],
-			'update_item' => 'Update ' . $taxonomy['single_name'],
-			'add_new_item' => 'Add New ' . $taxonomy['single_name'],
-			'new_item_name' => 'New ' . $taxonomy['single_name'] . ' Name',
-			'menu_name' => $taxonomy['plural_name']
-		);
-		
-		$rewrite = isset( $taxonomy['rewrite'] ) ? $taxonomy['rewrite'] : array( 'slug' => $taxonomy['slug'] );
-		$hierarchical = isset( $taxonomy['hierarchical'] ) ? $taxonomy['hierarchical'] : true;
-	
-		register_taxonomy( $taxonomy['slug'], $taxonomy['post_type'], array(
-			'hierarchical' => $hierarchical,
-			'labels' => $labels,
-			'show_ui' => true,
-			'query_var' => true,
-			'rewrite' => $rewrite,
-      'show_admin_column' => true,
-
-		));
-	}
-	
-}
-add_action( 'init', 'pxs_register_multiple_taxonomies' );
-endsnippet
-
-snippet shortcode "Description" b
+snippet shortcode_function "create shortcode function" b
 //[phoneAU]
 function phone_number( $atts ){
 
@@ -1383,6 +1452,12 @@ function phone_number( $atts ){
 }
 add_shortcode( 'phoneAU', 'phone_number' );
 endsnippet
+
+snippet do_shortcode "echo generic  shortcode " b
+<?php echo do_shortcode(''); ?>
+endsnippet
+
+#micromodal_snippets start here
 
 snippet micromodal "micromodal html scaffold" b
 <div id="modal-1" aria-hidden="true">
@@ -1400,21 +1475,4 @@ snippet micromodal "micromodal html scaffold" b
     </div>
   </div>
 </div>
-endsnippet
-
-snippet acf_theme_options "create acf theme options pages" b
-if( function_exists('acf_add_options_page') ) {
-	acf_add_options_page(array(
-		'page_title' 	=> 'Theme General Settings',
-		'menu_title'	=> 'Theme Settings',
-		'menu_slug' 	=> 'theme-general-settings',
-		'capability'	=> 'edit_posts',
-		'redirect'		=> false
-	));
-	acf_add_options_sub_page(array(
-		'page_title' 	=> 'Theme Footer Settings',
-		'menu_title'	=> 'Footer',
-		'parent_slug'	=> 'theme-general-settings',
-	));
-}
 endsnippet

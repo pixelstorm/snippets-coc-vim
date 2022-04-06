@@ -47,6 +47,18 @@ snippet media-min-820 "min tablet ipad mini" b
 }
 endsnippet
 
+snippet media-md-up "Description" b
+    @include media-breakpoint-up(md) {
+		 ${1}
+		}
+endsnippet
+
+snippet media-lg-up "Description" b
+    @include media-breakpoint-up(lg) {
+		 ${1}
+		}
+endsnippet
+
 snippet width100 "width 100% full width" b
     width: 100%;
 endsnippet
@@ -196,10 +208,14 @@ snippet animation "keyframe animation transition" b
         }
 endsnippet
 
-//color variables
+#color_snippets variables start here
 
 snippet cred "color red" b
 color: $red;
+endsnippet
+
+snippet corange "color orange" b
+color: $orange;
 endsnippet
 
 snippet cnavy "color navy" b
@@ -209,7 +225,6 @@ endsnippet
 snippet cwhite "color white" b
     color: $white;
 endsnippet
-
 
 snippet clight "light 1" b
 color: $color: $light-1;
@@ -238,16 +253,6 @@ endsnippet
 snippet cgold "gold" b
 color: $gold;
 endsnippet
-
-
-snippet fontWeight-map "sass map for font weights" b
-	$fontWeight: (
-		"regular": 400,
-		"medium": 500,
-		"bold": 700,
-	);
-endsnippet
-
 
 snippet child_theme_style_header "child theme style header" b
 /*
@@ -284,12 +289,55 @@ snippet breadcrumbs "yoast" b
 }
 endsnippet
 
+#bg_color_snippets start here
 snippet bgcw "bg white" b
     background-color: $white; 
 endsnippet
+
 snippet bgt "bg color transparent" b
     background-color: transparent; 
 endsnippet
+
+snippet bgcl "bg light" b
+    background-color: $light; 
+endsnippet
+
+snippet bgcl1 "background-color light 1" b
+    background-color: $light-1; 
+endsnippet
+
+snippet bgcl2 "background-color light 2" b
+    background-color: $light-2; 
+endsnippet
+
+snippet bgcl3 "background-color light 2" b
+    background-color: $light-3; 
+endsnippet
+
+snippet bgcd "bg dark" b
+    background-color: $dark; 
+endsnippet
+
+snippet bgcd1 "background-color dark 1" b
+    background-color: $dark-1; 
+endsnippet
+
+snippet bgcblack "bg black" b
+    background-color: $black; 
+endsnippet
+
+snippet bgcaqua "bg aqua" b
+    background-color: $aqua; 
+endsnippet
+
+snippet bgcgold "bgc gold" b
+    background-color: $gold; 
+endsnippet
+
+snippet bgcblue "bg blue" b
+    background-color: $blue; 
+endsnippet
+
 
 snippet pagination_numeric_posts_nav "styles for function pxs_numeric_posts_nav()" b
 .page-navigation {
@@ -368,46 +416,18 @@ snippet pagination_numeric_posts_nav "styles for function pxs_numeric_posts_nav(
 }
 endsnippet
 
-snippet bgcl "bg light" b
-    background-color: $light; 
-endsnippet
-
-snippet bgcl1 "background-color light 1" b
-    background-color: $light-1; 
-endsnippet
-
-snippet bgcl2 "background-color light 2" b
-    background-color: $light-2; 
-endsnippet
-
-snippet bgcl3 "background-color light 2" b
-    background-color: $light-3; 
-endsnippet
-
-snippet bgcd "bg dark" b
-    background-color: $dark; 
-endsnippet
-
-snippet bgcd1 "background-color dark 1" b
-    background-color: $dark-1; 
-endsnippet
-
-snippet bgcblack "bg black" b
-    background-color: $black; 
-endsnippet
-
-snippet bgcaqua "bg aqua" b
-    background-color: $aqua; 
-endsnippet
-snippet bgcgold "bgc gold" b
-    background-color: $gold; 
-endsnippet
-
+#flex_snippets start here
 snippet flex-direction-with-media-query "mobile column desktop row" b
     flex-direction:column;
     @media screen and (min-width:1280px) {
       flex-direction: row;
     }
+endsnippet
+
+snippet flex-center-center "align item vertical and horizontal center" b
+display:flex;
+align-items: center;
+justify-content: center;
 endsnippet
 
 snippet animation-property-stack "apply to the element you want to animate" b
@@ -417,35 +437,18 @@ snippet animation-property-stack "apply to the element you want to animate" b
 			animation-fill-mode: forwards;
 endsnippet
 
-snippet flex-center-center "align item vertical and horizontal center" b
-display:flex;
-align-items: center;
-justify-content: center;
-endsnippet
-
-snippet bgcblue "bg blue" b
-    background-color: $blue; 
-endsnippet
-
-//borders
-snippet bdcw "bd white" b
-    border-color: $white; 
-endsnippet
-
-snippet bdcl "bd light" b
-    border-color: $light; 
-endsnippet
+#btn_snippets start here
 
 snippet btn "btn mixin with wrapper using bem" b
   &__btn-wrapper {
     display: flex;
   }
-
   &__btn-link {
     @include btn();
   }
 endsnippet
 
+#link_snippets start here
 snippet link-with-underline "read more link" b
 			border-bottom: 1px solid $red;
 			color: $navy;
@@ -453,6 +456,7 @@ snippet link-with-underline "read more link" b
 			display: inline-flex;
 endsnippet
 
+#border-color_snippets start here
 snippet bdcd "bd dark" b
     border-color: $dark; 
 endsnippet
@@ -465,6 +469,18 @@ snippet bdcb "bd black" b
     border-color: $black; 
 endsnippet
 
+snippet bdcw "bd white" b
+    border-color: $white; 
+endsnippet
+
+snippet bdcl "bd light" b
+    border-color: $light; 
+endsnippet
+
+snippet bd1s "border 1px solid" b
+	border: 1px solid;
+endsnippet
+
 snippet rgba "transparent color" b
 	color: rgba(0, 0, 0, 0.8);
 endsnippet
@@ -473,18 +489,13 @@ snippet rgba-property "transparent color value" b
 	rgba(0, 0, 0, 0.8);
 endsnippet
 
-snippet bd1s "border 1px solid" b
-	border: 1px solid;
-endsnippet
-
-snippet input "input with type, number, text, email" b
-input[type=${1}]
-endsnippet
 
 snippet class "css class" b
           .${1} {
           }
 endsnippet
+
+#bem-child_snippets start here
 
 snippet bc "child_class-bem" b
           &__${1} {
@@ -540,12 +551,32 @@ snippet bc__wrapper "child_class-bem" b
           }
 endsnippet
 
-
 snippet bm "bem modifyer" b
           &--${1} {
 					${2}
           }
 endsnippet
+
+
+snippet cg_rems "column gap in rems" b
+		column-gap: rem(${1}px);
+endsnippet
+
+
+#form_snippets start here
+
+snippet input "input with type, number, text, email" b
+input[type=${1}]
+endsnippet
+
+snippet form_number_field_arrows "display input field incriment arrows" b
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+   opacity: 1;
+}
+endsnippet
+
+#gform_snippets start here
 
 snippet gform_mixin "gravityforms - apply to .gform class" b
 @mixin gform() {
@@ -581,11 +612,7 @@ snippet gform_mixin "gravityforms - apply to .gform class" b
 }
 endsnippet
 
-snippet colGapRem "Description" b
-		column-gap: rem(${1}px);
-endsnippet
-
-snippet gfield "gravityforms - apply to .gfield class" b
+snippet gfield "gforms - apply to .gfield class" b
 @mixin gfield() {
 	&_label {
 		font-style: normal;
@@ -605,11 +632,20 @@ snippet gfield "gravityforms - apply to .gfield class" b
 }
 endsnippet
 
-snippet display_number_field_arrows "display input field incriment arrows" b
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button {  
-   opacity: 1;
-}
+snippet form_field_placeholder "style form field placeholders" b
+			input::placeholder,
+			textarea::placeholder {
+				font-family: 'NeuzeitGro Light';
+			}
+endsnippet
+
+
+# pseudo_snippets start here
+
+snippet pseudo_states "pseudo hover visited" b
+    &:${1} {
+			 ${2}
+    }
 endsnippet
 
 snippet pseudo-after "pseudo after general" b
@@ -643,44 +679,10 @@ snippet grid "simple grid - assign the grid areas" b
       'post post post post'; 
 endsnippet
 
-snippet interpolate "responsive elements" b
-    @include interpolate(font-size, 1280px, 1920px, 14px, 16px );
-endsnippet
-
 snippet comment-singleline "single line comment" b
 /*--------------------------------------------------------------
 ## Comments
 --------------------------------------------------------------*/
-endsnippet
-
-snippet map-get "get value from object 1: key, 2: value" b
-map-get(${1}, ${2});
-endsnippet
-
-snippet section "section scaffold" 
-.${1} {
-  .container {}
-  &__wrapper {}
-  &__title {
-  }
-  &__text {
-  }
-}
-endsnippet
-
-snippet font-load "load font face from files" b
-@font-face {
-  font-family: 'Cera Pro Medium';
-  src:  url('../fonts/ceraPro-Medium.woff') format('woff'),
-}
-@font-face {
-  font-family: 'Cera Pro Bold';
-  src:  url('../fonts/ceraPro-Bold.woff') format('woff'),
-}
-@font-face {
-  font-family: 'Cera Pro';
-  src:  url('../fonts/ceraPro-Regular.woff') format('woff'),
-}
 endsnippet
 
 snippet fluid-imgs-mixin "mixin for fluid imgs" 
@@ -699,68 +701,295 @@ snippet fluid-imgs "css for fluid imgs"
     object-position: center;
 endsnippet
 
-## fontsizes
+# font_snippets start here
+snippet font-load "load font face from files" b
+@font-face {
+  font-family: 'Cera Pro Medium';
+  src:  url('../fonts/ceraPro-Medium.woff') format('woff'),
+}
+@font-face {
+  font-family: 'Cera Pro Bold';
+  src:  url('../fonts/ceraPro-Bold.woff') format('woff'),
+}
+@font-face {
+  font-family: 'Cera Pro';
+  src:  url('../fonts/ceraPro-Regular.woff') format('woff'),
+}
+endsnippet
+
+## font-size_snippets start here
 
 snippet fs "font-size in rems" b
 		font-size: rem(${1}px);
 endsnippet
+
 snippet fslh "font size and line-height" b
 		font-size: rem(${1}px);
 		line-height: rem(${2}px);
 endsnippet
+
 snippet fp "font properties" b
 		font-weight: $1;
 		font-size: rem(${2}px);
 		line-height: rem(${3}px);
 		color: $4;
 endsnippet
-snippet rem "px to rem" b
-		rem(${1}px);
-endsnippet
+
 snippet lh "line-height in rems" b
 		line-height: rem(${1}px);
 endsnippet
-snippet placeholder "style form placeholders" b
-			input::placeholder,
-			textarea::placeholder {
-				font-family: 'NeuzeitGro Light';
-			}
+
+snippet rem "px to rem" b
+		rem(${1}px);
 endsnippet
-snippet height-rems "height in rems" b
+
+#hight_snippets start here
+snippet hr "height in rems" b
 		height: rem(${1}px);
 endsnippet
-snippet min-height-rems "min-height in rems" b
+
+snippet mhr "min-height in rems" b
 		min-height: rem(${1}px);
 endsnippet
-snippet width-rems "width in rems" b
+
+#width_snippets start here
+snippet wr "width in rems" b
 		width: rem(${1}px);
 endsnippet
-snippet min-width-rems "min-width in rems" b
+
+snippet mwr "min-width in rems" b
 		min-width: rem(${1}px);
 endsnippet
-snippet ml "margin left in rems" b
+
+#margin_snippets start here
+
+snippet mlr "margin left in rems" b
 margin-left: rem(${1}px);
 endsnippet
-snippet mr "margin right in rems" b
+
+snippet mrr "margin right in rems" b
 margin-right: rem(${1}px);
 endsnippet
-snippet mt "margin top in rems" b
+
+snippet mtr "margin top in rems" b
 margin-top: rem(${1}px);
 endsnippet
+
 snippet mb "margin bottom in rems" b
 margin-bottom: rem(${1}px);
 endsnippet
+
+#padding_snippets start here
 snippet pl "padding left in rems" b
 padding-left: rem(${1}px);
 endsnippet
+
 snippet pr "padding right in rems" b
 padding-right: rem(${1}px);
 endsnippet
-snippet pt "padding top in rems" b
+
+snippet ptr "padding top in rems" b
 padding-top: rem(${1}px);
 endsnippet
-snippet pb "padding bottom in rems" b
+
+snippet pbr "padding bottom in rems" b
 padding-bottom: rem(${1}px);
+endsnippet
+
+snippet padding "padding" b
+		padding: rem(${1}px);
+endsnippet
+
+
+#slick_snippets start here
+
+snippet slickfix "code to overide slick variables when installing with npm" b
+// =============================================================================
+// overide slick variables so all the paths work
+// =============================================================================
+$slick-font-path: '../../node_modules/slick-carousel/slick/fonts/' !default;
+$slick-font-family: 'slick' !default;
+$slick-loader-path: '../../node_modules/slick-carousel/slick/' !default;
+$slick-arrow-color: white !default;
+endsnippet
+
+snippet slick-slider-navigation-controls "default slick native navigation arrows, set arrows to on in slick js" b
+.slick-arrow {
+	background-repeat: no-repeat;
+	background-position: center center;
+	height: 100px;
+	width: 100px;
+	position: absolute;
+	z-index: 100;
+	&:before {
+		display: none;
+	}
+	&:hover {
+		color: white;
+		outline-color: white;
+	}
+	&:focus {
+		color: white;
+		outline-color: white;
+	}
+}
+.slick-prev {
+	background-image: url('../svgs/icon-slideshow-prev-simple.svg');
+	left: -100px;
+	&:hover,
+	&:focus {
+		background-image: url('../svgs/icon-slideshow-prev-simple.svg');
+		background-repeat: no-repeat;
+		background-position: center center;
+	}
+}
+.slick-next {
+	background-image: url('../svgs/icon-slideshow-next-simple.svg');
+	right: -100px;
+	&:hover,
+	&:focus {
+		background-image: url('../svgs/icon-slideshow-next-simple.svg');
+		background-repeat: no-repeat;
+		background-position: center center;
+	}
+}
+endsnippet
+
+#section_snippets start here
+
+snippet section-text-with-image "text with image bem" b
+.text-with-image {
+	.container {
+	}
+	&__wrapper {
+		display: flex;
+	}
+	//internal content wrapper
+	&__meta-wrapper {
+		flex: 1;
+	}
+	&__title {
+	}
+	&__image {
+		flex: 1;
+	}
+	&__text {
+	}
+}
+endsnippet
+
+snippet section "section scaffold" 
+.${1} {
+  .container {}
+  &__wrapper {}
+  &__title {
+  }
+  &__text {
+  }
+}
+endsnippet
+
+snippet section_testimonial "section testimonial section bem markup" b
+.testimonial {
+	.container {
+	}
+	&__wrapper {
+	}
+	&__text {
+	}
+	&__speech-icon {
+	}
+	&__author {
+	}
+	&__company {
+	}
+	&__meta-wrapper {
+	}
+}
+endsnippet
+
+snippet section-two-col "two col section" b
+.${1} {
+  .container {
+  }
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__col-wrapper {
+    flex: 0 48%;
+  }
+
+  &__title {
+  }
+  &__subtitle {
+  }
+  &__text {
+  }
+}
+endsnippet
+
+## fonts for kenik
+snippet ff1r "Description" b
+			font-family: 'IvyMode Regular';
+endsnippet
+snippet ff1t "Description" b
+			font-family: 'IvyMode Thin';
+endsnippet
+snippet ff1b "Description" b
+			font-family: 'IvyMode Bold';
+endsnippet
+snippet ff1l "Description" b
+			font-family: 'IvyMode Light';
+endsnippet
+
+snippet ff2l "Description" b
+			font-family: 'NeuzeitGro Light';
+endsnippet
+snippet ff2r "Description" b
+			font-family: 'NeuzeitGro Regular';
+endsnippet
+snippet ff2b "Description" b
+			font-family: 'NeuzeitGro Bold';
+endsnippet
+
+#module_snippets start here
+
+snippet 404 "404 template styles - see php template" b
+.error-404 {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  &__header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  &__title {
+    // font-size: 60px;
+    font-weight: bold;
+    // @include responsive(font-size, $bp-xsmall-px, $bp-large-px, 40px, 60px);
+    margin: 0;
+    @include title();
+  }
+  &__text {
+    font-weight: bold;
+    line-height: 0.75;
+    @include text();
+  }
+  &__content {
+    text-align: center;
+  }
+  &__message {
+    font-size: 24px;
+    @include text();
+  }
+  &__button {
+    @include ctabtn();
+    height: 6.4rem;
+    margin: 0 auto;
+    width: 20rem;
+  }
+}
 endsnippet
 
 snippet share-btns "btns to share content to social media" b
@@ -815,225 +1044,27 @@ snippet share-btns "btns to share content to social media" b
 }
 endsnippet
 
-snippet section_testimonial "section testimonial section bem markup" b
-.testimonial {
-	.container {
-	}
-	&__wrapper {
-	}
-	&__text {
-	}
-	&__speech-icon {
-	}
-	&__author {
-	}
-	&__company {
-	}
-	&__meta-wrapper {
-	}
-}
-endsnippet
-
 snippet author-meta "author-meta box for single post" b
 .author-meta {
 	background-color: $light;
 	&__wrapper {
-display: flex;
-padding: rem(20px);
+			display: flex;
+			padding: rem(20px);
 	}
 	&__image-wrapper {
 	}
-
 	&__meta-wrapper {
-padding: rem(30px);
+	 padding: rem(30px);
 	}
-
 	&__bio {
-margin: 0;
+	 margin: 0;
 	}
-
 	&__name {
-margin: 0;
-				padding-bottom: rem(10px);
+	 margin: 0;
+	padding-bottom: rem(10px);
 	}
-
 	&__position {
-margin: 0;
+	 margin: 0;
 	}
-}
-endsnippet
-
-snippet section-two-col "two col section" b
-.${1} {
-  .container {
-  }
-  &__wrapper {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &__col-wrapper {
-    flex: 0 48%;
-  }
-
-  &__title {
-  }
-  &__subtitle {
-  }
-  &__text {
-  }
-}
-endsnippet
-
-snippet slickfix "code to overide slick variables when installing with npm" b
-// =============================================================================
-// overide slick variables so all the paths work
-// =============================================================================
-$slick-font-path: '../../node_modules/slick-carousel/slick/fonts/' !default;
-$slick-font-family: 'slick' !default;
-$slick-loader-path: '../../node_modules/slick-carousel/slick/' !default;
-$slick-arrow-color: white !default;
-endsnippet
-
-snippet slick-slider-navigation-controls "default slick native navigation arrows, set arrows to on in slick js" b
-.slick-arrow {
-	background-repeat: no-repeat;
-	background-position: center center;
-	height: 100px;
-	width: 100px;
-	position: absolute;
-	z-index: 100;
-	&:before {
-		display: none;
-	}
-	&:hover {
-		color: white;
-		outline-color: white;
-	}
-	&:focus {
-		color: white;
-		outline-color: white;
-	}
-}
-.slick-prev {
-	background-image: url('../svgs/icon-slideshow-prev-simple.svg');
-	left: -100px;
-	&:hover,
-	&:focus {
-		background-image: url('../svgs/icon-slideshow-prev-simple.svg');
-		background-repeat: no-repeat;
-		background-position: center center;
-	}
-}
-.slick-next {
-	background-image: url('../svgs/icon-slideshow-next-simple.svg');
-	right: -100px;
-	&:hover,
-	&:focus {
-		background-image: url('../svgs/icon-slideshow-next-simple.svg');
-		background-repeat: no-repeat;
-		background-position: center center;
-	}
-}
-endsnippet
-
-snippet section-text-with-image "text with image bem" b
-.text-with-image {
-	.container {
-	}
-	&__wrapper {
-		display: flex;
-	}
-	//internal content wrapper
-	&__meta-wrapper {
-		flex: 1;
-	}
-	&__title {
-	}
-	&__image {
-		flex: 1;
-	}
-	&__text {
-	}
-}
-endsnippet
-
-
-snippet padding-rems "Description" b
-padding: rem(${1}px);
-endsnippet
-
-snippet pb "padding" b
-		padding-bottom: rem(${1}px);
-endsnippet
-snippet pt "padding" b
-		padding-top: rem(${1}px);
-endsnippet
-snippet pr "padding" b
-		padding-right: rem(${1}px);
-endsnippet
-snippet pl "padding" b
-		padding-left: rem(${1}px);
-endsnippet
-snippet padding "padding" b
-		padding: rem(${1}px);
-endsnippet
-
-//fonts for kenik
-snippet ff1r "Description" b
-			font-family: 'IvyMode Regular';
-endsnippet
-snippet ff1t "Description" b
-			font-family: 'IvyMode Thin';
-endsnippet
-snippet ff1b "Description" b
-			font-family: 'IvyMode Bold';
-endsnippet
-snippet ff1l "Description" b
-			font-family: 'IvyMode Light';
-endsnippet
-
-snippet ff2l "Description" b
-			font-family: 'NeuzeitGro Light';
-endsnippet
-snippet ff2r "Description" b
-			font-family: 'NeuzeitGro Regular';
-endsnippet
-snippet ff2b "Description" b
-			font-family: 'NeuzeitGro Bold';
-endsnippet
-snippet 404 "404 template styles - see php template" b
-.error-404 {
-  padding-top: 50px;
-  padding-bottom: 50px;
-  &__header {
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-  &__title {
-    // font-size: 60px;
-    font-weight: bold;
-    // @include responsive(font-size, $bp-xsmall-px, $bp-large-px, 40px, 60px);
-    margin: 0;
-    @include title();
-  }
-  &__text {
-    font-weight: bold;
-    line-height: 0.75;
-    @include text();
-  }
-  &__content {
-    text-align: center;
-  }
-  &__message {
-    font-size: 24px;
-    @include text();
-  }
-  &__button {
-    @include ctabtn();
-    height: 6.4rem;
-    margin: 0 auto;
-    width: 20rem;
-  }
 }
 endsnippet
